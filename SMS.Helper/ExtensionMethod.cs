@@ -1,4 +1,5 @@
-﻿using SMS.Domain.Common.Enum;
+﻿using SMS.Domain.Common;
+using SMS.Domain.Common.Enum;
 using System.Security.Cryptography;
 
 namespace SMS.Helper
@@ -72,20 +73,20 @@ namespace SMS.Helper
             return dateTime.AddHours(5).AddMinutes(45).ToString("dd.MM.yyyy hh:mm tt");
         }
 
-        //    public static string GeneratePassword(int length = 😎
-        //{
-        //        const string chars = Constants.Authentication.PasswordCharacters;
+        public static string GeneratePassword(int length = 8)
+        {
+            const string chars = Constants.Authentication.PasswordCharacters;
 
-        //        var random = new Random();
-        //        var password = new char[length];
+            var random = new Random();
+            var password = new char[length];
 
-        //        for (var i = 0; i < length; i++)
-        //        {
-        //            password[i] = chars[random.Next(chars.Length)];
-        //        }
+            for (var i = 0; i < length; i++)
+            {
+                password[i] = chars[random.Next(chars.Length)];
+            }
 
-        //        return new string(password);
-        //    }
+            return new string(password);
+        }
 
         public static string HashPassword(this string password)
         {

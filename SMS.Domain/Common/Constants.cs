@@ -24,5 +24,20 @@
         {
             public const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         }
+
+        private abstract class FolderPath
+        {
+            public const string Images = "images";   
+        }
+
+        public abstract class FilePath
+        {
+            public const string UsersImagesFilePath = $"{FolderPath.Images}/user-images/";
+            
+        }
+        public abstract class Authentication
+        {
+            public const string PasswordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/";
+        }
     }
 }

@@ -1,3 +1,4 @@
+using SMS.API.Configurations;
 using SMS.API.Middleware;
 using SMS.Identity.Dependency;
 using SMS.Infrastructure.Dependency;
@@ -28,6 +29,7 @@ services.AddInfrastructureService(configurations);
 
 await services.AddDataSeedMigrationService();
 
+services.AddCustomSwaggerGen();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddSwaggerGen();

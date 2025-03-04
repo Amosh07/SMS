@@ -24,8 +24,8 @@ namespace SMS.Identity.Dependency
             configuration.GetSection("DatabaseSettings").Bind(databaseSettings);
 
                 var connectionString = databaseSettings.DbProvider == Constants.DbProviderKey.Npgsql
-         ? databaseSettings.NpgSqlConnectionString
-         : databaseSettings.SqlServerConnectionString;
+                 ? databaseSettings.NpgSqlConnectionString
+                 : databaseSettings.SqlServerConnectionString;
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
