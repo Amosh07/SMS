@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
-using SMS.Application.DTOs.Student;
 using SMS.Application.DTOs.Subject;
-using SMS.Application.DTOs.Teacher;
 using SMS.Application.Interface.Services;
-using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -13,8 +10,8 @@ namespace SMS.API.Controllers
     [Route("api/subject")]
     public class SubjectController(ISubjectService subjectService) : BaseController<SubjectController>
     {
-        [HttpPost("InsertStudent")]
-        public IActionResult InsertStudent(InsertSubjectDto insertSubjectDto)
+        [HttpPost("InsertSubject")]
+        public IActionResult InsertSubject(InsertSubjectDto insertSubjectDto)
         {
             subjectService.InsertSubject(insertSubjectDto);
 
