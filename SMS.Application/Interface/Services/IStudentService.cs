@@ -1,6 +1,5 @@
 ﻿using SMS.Application.Common.Service;
 using SMS.Application.DTOs.Student;
-using SMS.Application.DTOs.Teacher;
 
 namespace SMS.Application.Interface.Services
 {

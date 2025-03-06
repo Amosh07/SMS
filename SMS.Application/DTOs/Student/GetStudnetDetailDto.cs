@@ -1,6 +1,6 @@
 ﻿namespace SMS.Application.DTOs.Student
 {
-    public class GetStudnetDetailDto
+    public class GetStudentDetailDto
     {
         public Guid Id { get; set; }
 

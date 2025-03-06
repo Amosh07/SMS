@@ -7,6 +7,6 @@ namespace SMS.Application.Interface.Services
    {
         void InsertTeacher(InsertTeacherDto insertTeacherDto);
 
-        GetStudentDetailDto GetTeacherDetails(Guid Id);
+        GetTeacherDetailDto GetTeacherDetails(Guid Id);
    }
 }

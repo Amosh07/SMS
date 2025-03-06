@@ -1,5 +1,4 @@
 ﻿using SMS.Application.DTOs.Student;
-using SMS.Application.DTOs.Teacher;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
