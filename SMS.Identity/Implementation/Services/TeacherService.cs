@@ -8,12 +8,12 @@ namespace SMS.Identity.Implementation.Services
 {
     public class TeacherService(IGenericRepository genericRepository) : ITeacherService
     {
-        public GetTeacherDetailDto GetTeacherDetails(Guid Id)
+        public GetStudentDetailDto GetTeacherDetails(Guid Id)
         {
             var teacherModel = genericRepository.GetById<Teacher>(Id)
                  ?? throw new NotFoundException("The Teacher was not found.");
 
-            var result = new GetTeacherDetailDto()
+            var result = new GetStudentDetailDto()
             {
                 Name = teacherModel.Name,
                 Address = teacherModel.Address,

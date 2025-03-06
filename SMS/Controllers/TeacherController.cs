@@ -28,7 +28,7 @@ namespace SMS.API.Controllers
         {
             var result = teacherService.GetTeacherDetails(Id);
 
-            return Ok(new ResponseDto<GetTeacherDetailDto>()
+            return Ok(new ResponseDto<GetStudentDetailDto>()
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Teacher details successfully retrieved",
