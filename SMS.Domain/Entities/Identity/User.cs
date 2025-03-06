@@ -17,8 +17,6 @@ namespace SMS.Domain.Entities.Identity
         // Foreign Keys
         public Guid? TeacherId { get; set; }
         public Guid? StudentId { get; set; }
-
-        // Navigation Properties (should NOT be ICollection)
         public virtual Teacher? Teacher { get; set; }
         public virtual Student? Student { get; set; }
     }

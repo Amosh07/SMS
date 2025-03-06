@@ -30,6 +30,17 @@
             public const string Images = "images";   
         }
 
+        public abstract class Provider
+        {
+            public const string Api = "API";
+            public const string Wasm = "WASM";
+        }
+
+        public abstract class Encryption
+        {
+            public const string Key = "@mosh";
+        }
+
         public abstract class FilePath
         {
             public const string UsersImagesFilePath = $"{FolderPath.Images}/user-images/";

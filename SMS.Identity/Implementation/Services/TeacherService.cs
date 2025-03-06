@@ -27,7 +27,23 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertTeacher(InsertTeacherDto insertTeacherDto)
         {
-            throw new NotImplementedException();
+           var existingTeacher = genericRepository.GetFirstOrDefault<Teacher>(x => x.Email == insertTeacherDto.Email);
+
+            if (existingTeacher != null) 
+            {
+                throw new NotFoundException("The following Teacher is already exists");
+            }
+
+            var teacherModel = new Teacher()
+            {
+                Name = insertTeacherDto.Name,
+                Number = insertTeacherDto.PhoneNumber,
+                Address = insertTeacherDto.Address,
+                Email = insertTeacherDto.Email,
+                IsActive = true
+            };
+
+            genericRepository.Insert(teacherModel);
         }
     }
 }

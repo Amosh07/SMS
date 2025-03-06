@@ -327,6 +327,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("TeacherId");
+
                     b.ToTable("Users", (string)null);
                 });
 
@@ -620,9 +622,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -630,9 +629,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("LastModifiedBy");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Teachers");
                 });
@@ -749,6 +745,15 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SMS.Domain.Entities.Identity.User", b =>
+                {
+                    b.HasOne("SMS.Domain.Entities.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Identity.UserClaims", b =>
@@ -922,17 +927,11 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .HasForeignKey("LastModifiedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "User")
-                        .WithOne("Teacher")
-                        .HasForeignKey("SMS.Domain.Entities.Teacher", "UserId");
-
                     b.Navigation("CreateUser");
 
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Class", b =>
@@ -943,8 +942,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
             modelBuilder.Entity("SMS.Domain.Entities.Identity.User", b =>
                 {
                     b.Navigation("Student");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Teacher", b =>
