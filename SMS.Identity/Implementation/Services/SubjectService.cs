@@ -15,7 +15,7 @@ namespace SMS.Identity.Implementation.Services
 
             var result = new GetSubjectDetailDto()
             {
-                SubjectName = SubjectModel.SubjectName,
+                SubjectName = SubjectModel.SubjectName
             };
 
             return result;
