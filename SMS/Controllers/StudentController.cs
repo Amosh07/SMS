@@ -2,7 +2,6 @@
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Student;
-using SMS.Application.DTOs.Teacher;
 using SMS.Application.Interface.Services;
 using System.Net;
 
