@@ -12,5 +12,9 @@ namespace SMS.Application.Interface.Services.Identity
         Task<RegistrationResponseDto> TeacherRegister(TeacherRegisterDto candidate);
 
         Task<RegistrationResponseDto> StudentRegister(StudentRegisterDto candidate);
+
+        void ExpireToken(string token);
+
+        bool IsTokenExpired(string token);
     }
 }

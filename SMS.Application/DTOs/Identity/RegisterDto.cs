@@ -20,10 +20,6 @@ namespace SMS.Application.DTOs.Identity
 
         public string? Address { get; set; }
 
-        public Guid? DesignationId { get; set; }
-
-        public Guid? CountryId { get; set; }
-
         [FileExamination(5 * 1024 * 1024, true)]
         public IFormFile? ImageUrl { get; set; }
     }

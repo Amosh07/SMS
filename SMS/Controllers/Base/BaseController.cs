@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using SMS.API.Attributes;
 
 namespace SMS.API.Controllers.Base
 {
-    //[ApiController]
+    [Authorize]
+    [TokenHandler]
+    [ApiController]
     public abstract class BaseController<T> : ControllerBase where T : BaseController<T>
     {
         protected static string GetContentType(string fileName)

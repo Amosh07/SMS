@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Identity;
 using SMS.Application.Interface.Services.Identity;
 using System.Net;
 
-namespace SMS.API.Controllers.Base
+namespace SMS.API.Controllers
 {
     [ApiController]
     [Route("api/authentication")]

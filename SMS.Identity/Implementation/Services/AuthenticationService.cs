@@ -135,10 +135,6 @@ namespace SMS.Identity.Implementation.Services
                 ? fileService.UploadDocument(student.ImageUrl, UsersImagesFilePath)
                 : null;
 
-          
-
-          
-
             if (student.Password != student.ConfirmPassword)
             {
                 var exception = new[]
@@ -203,9 +199,9 @@ namespace SMS.Identity.Implementation.Services
                 throw new NotFoundException(
                     "An existing user with the following email address already exists in our system, please try again with a new email address.");
 
-            var userImageUrl = teacher.ImageUrl != null
+            /*var userImageUrl = teacher.ImageUrl != null
                 ? fileService.UploadDocument(teacher.ImageUrl, UsersImagesFilePath)
-                : null;
+                : null;*/
 
             if (teacher.Password != teacher.ConfirmPassword)
             {
@@ -227,7 +223,7 @@ namespace SMS.Identity.Implementation.Services
                 NormalizedEmail = teacher.Email.ToUpper(),
                 PhoneNumber = teacher.PhoneNumber,
                 Gender = teacher.Gender,
-                ImageURL = userImageUrl,
+                //ImageURL = userImageUrl,
                 IsActive = false,
                 PhoneNumberConfirmed = true,
                 RegisteredDate = DateTime.UtcNow
@@ -328,6 +324,16 @@ namespace SMS.Identity.Implementation.Services
             };
 
             return response;
+        }
+
+        public void ExpireToken(string token)
+        {
+            tokenManager.BlackList.Add(token);
+        }
+
+        public bool IsTokenExpired(string token)
+        {
+            return tokenManager.BlackList.Contains(token);
         }
     }
 }
