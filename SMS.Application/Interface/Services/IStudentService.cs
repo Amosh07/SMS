@@ -8,5 +8,9 @@ namespace SMS.Application.Interface.Services
         void InsertStudent(InsertStudentDto insertStudentDto);
 
         GetStudentDetailDto GetStudentDetails(Guid Id);
+
+        void UpdateStudentDetails(UpdateStudentRequestDto student);
+
+        void ActivateDeactivateStudent(Guid studentId);
     }
 }

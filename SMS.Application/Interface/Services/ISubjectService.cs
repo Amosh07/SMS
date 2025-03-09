@@ -8,5 +8,9 @@ namespace SMS.Application.Interface.Services
         void InsertSubject(InsertSubjectDto insertSubjectDto);
 
         GetSubjectDetailDto GetSubjectDetails(Guid Id);
+
+        void UpdateSubjectDetails(UpdateSubjectRequestDto subject);
+
+        void ActivateDeactivateSubject(Guid subjectId);
     }
 }

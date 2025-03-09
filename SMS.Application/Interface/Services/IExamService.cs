@@ -8,5 +8,9 @@ namespace SMS.Application.Interface.Services
         void InsertExam(InsertExamDto insertExamDto);
 
         GetExamDetailDto GetExamDetails(Guid Id);
+
+        void UpdateExamDetails(UpdateExamRequestDto exam);
+
+        void ActivateDeactivateExam(Guid examId);
     }
 }

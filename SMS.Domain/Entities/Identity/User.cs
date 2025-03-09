@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SMS.Domain.Common.Enum;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SMS.Domain.Entities.Identity
 {

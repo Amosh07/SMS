@@ -8,5 +8,9 @@ namespace SMS.Application.Interface.Services
         void InsertAttendance(InsertAttendanceDto insertAttendanceDto);
 
         GetAttendanceDetailDto GetAttendanceDetails(Guid Id);
+
+        void UpdateAttendanceDetails(UpdateAttendanceRequestDto attendance);
+
+        void ActivateDeactivateAttendance(Guid attendanceId);
     }
 }

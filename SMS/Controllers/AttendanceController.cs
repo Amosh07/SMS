@@ -35,5 +35,18 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpPut]
+        public IActionResult UpdateAttendanceDetails(UpdateAttendanceRequestDto attendance)
+        {
+            attendanceService.UpdateAttendanceDetails(attendance);
+
+            return Ok(new ResponseDto<bool>()
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Attendance details successfully updated.",
+                Result = true
+            });
+        }
     }
 }

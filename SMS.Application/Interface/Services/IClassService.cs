@@ -8,5 +8,9 @@ namespace SMS.Application.Interface.Services
         void InsertClass(InsertClassDto insertClassDto);
 
         GetClassDetailDto GetClassDetails(Guid Id);
+
+        void UpdateClassDetails(UpdateClassRequestDto @class);
+
+        void ActivateDeactivateClass(Guid classId);
     }
 }
