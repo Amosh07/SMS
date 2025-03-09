@@ -42,7 +42,8 @@ namespace SMS.Infrastructure.Persistence.Seed
             {
                 Constants.Roles.SuperAdmin,
                 Constants.Roles.Teacher,
-                Constants.Roles.Student
+                Constants.Roles.Student,
+                Constants.Roles.User
             };
 
             var rolesIds = new List<Guid>()

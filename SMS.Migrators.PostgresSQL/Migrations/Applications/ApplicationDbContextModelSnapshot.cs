@@ -327,6 +327,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("StudentId");
+
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Users", (string)null);
@@ -491,6 +493,10 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -508,9 +514,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
@@ -520,9 +523,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("LastModifiedBy");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Students");
                 });
@@ -749,9 +749,15 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
 
             modelBuilder.Entity("SMS.Domain.Entities.Identity.User", b =>
                 {
+                    b.HasOne("SMS.Domain.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
                     b.HasOne("SMS.Domain.Entities.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("TeacherId");
+
+                    b.Navigation("Student");
 
                     b.Navigation("Teacher");
                 });
@@ -859,10 +865,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .HasForeignKey("LastModifiedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "User")
-                        .WithOne("Student")
-                        .HasForeignKey("SMS.Domain.Entities.Student", "UserId");
-
                     b.Navigation("Class");
 
                     b.Navigation("CreateUser");
@@ -870,8 +872,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Subject", b =>
@@ -937,11 +937,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
             modelBuilder.Entity("SMS.Domain.Entities.Class", b =>
                 {
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Identity.User", b =>
-                {
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Teacher", b =>

@@ -33,12 +33,29 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertResult(InsertResultDto insertResultDto)
         {
-            throw new NotImplementedException();
+            var existingResult = genericRepository.GetFirstOrDefault<Result>(x => x.Grade == insertResultDto.Grade);
+
+            if (existingResult != null)
+            {
+                throw new NotFoundException("The following Results is already exists");
+            }
+            var resultModel = new Result()
+            {
+                Grade = insertResultDto.Grade,
+               
+                IsActive = true
+            };
+            genericRepository.Insert(resultModel);
         }
 
         public void UpdateResultDetails(UpdateResultRequestDto result)
         {
-            throw new NotImplementedException();
+            var resultModel = genericRepository.GetById<Result>(result.Id)
+                                    ?? throw new NotFoundException("The Result was not found.");
+
+            resultModel.Grade = result.Grade;
+
+            genericRepository.Update(resultModel);
         }
     }
 }

@@ -33,14 +33,14 @@ namespace SMS.Identity.Implementation.Services
             return result;
         }
 
-        public void InsertStudent(InsertStudentDto insertStudentDto)
-        {
-            throw new NotImplementedException();
-        }
-
         public void UpdateStudentDetails(UpdateStudentRequestDto student)
         {
-            throw new NotImplementedException();
+            var studentModel = genericRepository.GetById<Student>(student.Id)
+                        ?? throw new NotFoundException("The Subject was not found.");
+
+            studentModel.Name = student.Name;
+
+            genericRepository.Update(studentModel);
         }
     }
 }

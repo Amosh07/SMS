@@ -34,12 +34,28 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertClass(InsertClassDto insertClassDto)
         {
-            throw new NotImplementedException();
+            var existingClass = genericRepository.GetFirstOrDefault<Class>(x => x.ClassName == insertClassDto.ClassName);
+
+            if (existingClass != null)
+            {
+                throw new NotFoundException("The following Class is already exists");
+            }
+            var classModel = new Class()
+            {
+                ClassName = insertClassDto.ClassName,
+
+                IsActive = true
+            };
+            genericRepository.Insert(classModel);
         }
 
         public void UpdateClassDetails(UpdateClassRequestDto @class)
         {
-            throw new NotImplementedException();
+            var classModel = genericRepository.GetById<Class>(@class.Id)
+                                                            ?? throw new NotFoundException("The Class was not found.");
+            classModel.ClassName = @class.ClassName;
+
+            genericRepository.Update(classModel);
         }
     }
 }

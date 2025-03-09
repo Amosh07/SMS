@@ -5,8 +5,6 @@ namespace SMS.Application.Interface.Services
 {
     public interface IStudentService : ITransientService
     {
-        void InsertStudent(InsertStudentDto insertStudentDto);
-
         GetStudentDetailDto GetStudentDetails(Guid Id);
 
         void UpdateStudentDetails(UpdateStudentRequestDto student);

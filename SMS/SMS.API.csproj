@@ -22,6 +22,12 @@
     <ProjectReference Include="..\SMS.Identity\SMS.Identity.csproj" />
     <ProjectReference Include="..\SMS.Infrastructure\SMS.Infrastructure.csproj" />
     <ProjectReference Include="..\SMS.Migrators.PostgresSQL\SMS.Migrators.PostgresSQL.csproj" />
+  </ItemGroup> 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\Images\user-images\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

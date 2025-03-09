@@ -7,6 +7,7 @@
             public const string SuperAdmin = "Super Admin";
             public const string Teacher = "Teacher";
             public const string Student = "Student";
+            public const string User = "User";
         }
         public abstract class SuperAdmin
         {
