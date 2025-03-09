@@ -35,5 +35,18 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpPut]
+        public IActionResult UpdateExamDetails(UpdateExamRequestDto exam)
+        {
+           examService.UpdateExamDetails(exam);
+
+            return Ok(new ResponseDto<bool>()
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Exam details successfully updated.",
+                Result = true
+            });
+        }
     }
 }

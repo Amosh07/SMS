@@ -8,6 +8,16 @@ namespace SMS.Identity.Implementation.Services
 {
     public class ClassService(IGenericRepository genericRepository) : IClassService
     {
+        public void ActivateDeactivateClass(Guid classId)
+        {
+            var classModel = genericRepository.GetById<Class>(classId)
+                 ?? throw new NotFoundException("The class was not found.");
+
+            classModel.IsActive = !classModel.IsActive;
+
+            genericRepository.Update(classModel);
+        }
+
         public GetClassDetailDto GetClassDetails(Guid Id)
         {
             var classModel = genericRepository.GetById<Class>(Id)
@@ -23,6 +33,11 @@ namespace SMS.Identity.Implementation.Services
         }
 
         public void InsertClass(InsertClassDto insertClassDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateClassDetails(UpdateClassRequestDto @class)
         {
             throw new NotImplementedException();
         }

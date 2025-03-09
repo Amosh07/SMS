@@ -103,19 +103,6 @@ namespace SMS.Identity.Implementation.Services
             userModel.Gender = user.Gender;
             userModel.Address = user.Address;
            
-
-            if (user.Image != null)
-            {
-                if (!string.IsNullOrEmpty(userModel.ImageURL))
-                {
-                    var userImagePath = Path.Combine(UsersImagesFilePath, userModel.ImageURL);
-
-                    fileService.DeleteFile(userImagePath);
-                }
-
-                userModel.ImageURL = fileService.UploadDocument(user.Image, UsersImagesFilePath);
-            }
-
             genericRepository.Update(userModel);
         }
     }

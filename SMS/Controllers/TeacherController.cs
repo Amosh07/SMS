@@ -35,5 +35,18 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpPut]
+        public IActionResult UpdateTeacherDetails(UpdateTeacherRequestDto teacher)
+        {
+            teacherService.UpdateTeacherDetails(teacher);
+
+            return Ok(new ResponseDto<bool>()
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Teacher details successfully updated.",
+                Result = true
+            });
+        }
     }
 }

@@ -8,6 +8,16 @@ namespace SMS.Identity.Implementation.Services
 {
     public class StudentService(IGenericRepository genericRepository) : IStudentService
     {
+        public void ActivateDeactivateStudent(Guid studentId)
+        {
+                var studentModel = genericRepository.GetById<Student>(studentId)
+                 ?? throw new NotFoundException("The student was not found.");
+
+                studentModel.IsActive = !studentModel.IsActive;
+
+                genericRepository.Update(studentModel);
+            }
+
         public GetStudentDetailDto GetStudentDetails(Guid Id)
         {
             var studentModel = genericRepository.GetById<Student>(Id)
@@ -24,6 +34,11 @@ namespace SMS.Identity.Implementation.Services
         }
 
         public void InsertStudent(InsertStudentDto insertStudentDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateStudentDetails(UpdateStudentRequestDto student)
         {
             throw new NotImplementedException();
         }

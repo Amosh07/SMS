@@ -2,7 +2,9 @@
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Class;
+using SMS.Application.DTOs.Exam;
 using SMS.Application.Interface.Services;
+using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -33,6 +35,19 @@ namespace SMS.API.Controllers
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Class details successfully retrieved",
                 Result = result
+            });
+        }
+
+        [HttpPut]
+        public IActionResult UpdateClassDetails(UpdateClassRequestDto @class)
+        {
+            classService.UpdateClassDetails(@class);
+
+            return Ok(new ResponseDto<bool>()
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Exam details successfully updated.",
+                Result = true
             });
         }
     }

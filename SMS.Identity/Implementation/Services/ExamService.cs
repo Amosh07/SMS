@@ -8,6 +8,16 @@ namespace SMS.Identity.Implementation.Services
 {
     public class ExamService(IGenericRepository genericRepository) : IExamService
     {
+        public void ActivateDeactivateExam(Guid examId)
+        {
+            var examModel = genericRepository.GetById<Exam>(examId)
+                             ?? throw new NotFoundException("The exam was not found.");
+
+            examModel.IsActive = !examModel.IsActive;
+
+            genericRepository.Update(examModel);
+        }
+
         public GetExamDetailDto GetExamDetails(Guid Id)
         {
             var examModel = genericRepository.GetById<Exam>(Id)
@@ -22,6 +32,11 @@ namespace SMS.Identity.Implementation.Services
         }
 
         public void InsertExam(InsertExamDto insertExamDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateExamDetails(UpdateExamRequestDto exam)
         {
             throw new NotImplementedException();
         }

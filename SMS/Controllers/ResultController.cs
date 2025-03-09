@@ -35,5 +35,18 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpPut]
+        public IActionResult UpdateResultDetails(UpdateResultRequestDto result)
+        {
+            resultService.UpdateResultDetails(result);
+
+            return Ok(new ResponseDto<bool>()
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "User details successfully updated.",
+                Result = true
+            });
+        }
     }
 }

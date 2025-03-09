@@ -8,6 +8,16 @@ namespace SMS.Identity.Implementation.Services
 {
     public class TeacherService(IGenericRepository genericRepository) : ITeacherService
     {
+        public void ActivateDeactivateTeacher(Guid teacherId)
+        {
+                var teacherModel = genericRepository.GetById<Teacher>(teacherId)
+                 ?? throw new NotFoundException("The teacher was not found.");
+
+                teacherModel.IsActive = !teacherModel.IsActive;
+
+                genericRepository.Update(teacherModel);
+            }
+
         public GetTeacherDetailDto GetTeacherDetails(Guid Id)
         {
             var teacherModel = genericRepository.GetById<Teacher>(Id)
@@ -33,7 +43,6 @@ namespace SMS.Identity.Implementation.Services
             {
                 throw new NotFoundException("The following Teacher is already exists");
             }
-
             var teacherModel = new Teacher()
             {
                 Name = insertTeacherDto.Name,
@@ -42,8 +51,19 @@ namespace SMS.Identity.Implementation.Services
                 Email = insertTeacherDto.Email,
                 IsActive = true
             };
-
             genericRepository.Insert(teacherModel);
+        }
+
+        public void UpdateTeacherDetails(UpdateTeacherRequestDto teacher)
+        {
+            var teacherModel = genericRepository.GetById<Teacher>(teacher.Id)
+                        ?? throw new NotFoundException("The Teacher was not found.");
+
+            teacherModel.Name = teacher.Name;
+            teacherModel.Number = teacher.PhoneNumber;
+            teacherModel.Email = teacher.Email;
+            teacherModel.Address = teacher.Address;
+            genericRepository.Update(teacherModel);
         }
     }
 }

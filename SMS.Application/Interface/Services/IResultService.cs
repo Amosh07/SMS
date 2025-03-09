@@ -8,5 +8,9 @@ namespace SMS.Application.Interface.Services
         void InsertResult(InsertResultDto insertResultDto);
 
         GetResultDetailDto GetResultDetails(Guid Id);
+
+        void UpdateResultDetails(UpdateResultRequestDto result);
+
+        void ActivateDeactivateResult(Guid resultId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SMS.Application.DTOs.Subject;
+using SMS.Application.DTOs.Teacher;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
@@ -8,6 +9,16 @@ namespace SMS.Identity.Implementation.Services
 {
     public class SubjectService(IGenericRepository genericRepository) : ISubjectService
     {
+        public void ActivateDeactivateSubject(Guid subjectId)
+        {
+                var subjectModel = genericRepository.GetById<Subject>(subjectId)
+                 ?? throw new NotFoundException("The subject was not found.");
+
+                subjectModel.IsActive = !subjectModel.IsActive;
+
+                genericRepository.Update(subjectModel);
+            }
+
         public GetSubjectDetailDto GetSubjectDetails(Guid Id)
         {
             var SubjectModel = genericRepository.GetById<Subject>(Id)
@@ -22,6 +33,22 @@ namespace SMS.Identity.Implementation.Services
         }
 
         public void InsertSubject(InsertSubjectDto insertSubjectDto)
+        {
+            var existingSubject = genericRepository.GetFirstOrDefault<Subject>(x => x.SubjectName == insertSubjectDto.SubjectName);
+
+            if (existingSubject != null)
+            {
+                throw new NotFoundException("The following Subject is already exists");
+            }
+            var subjectModel = new Subject()
+            {
+                SubjectName = insertSubjectDto.SubjectName,
+                IsActive = true
+            };
+            genericRepository.Insert(subjectModel);
+        }
+
+        public void UpdateSubjectDetails(UpdateSubjectRequestDto subject)
         {
             throw new NotImplementedException();
         }
