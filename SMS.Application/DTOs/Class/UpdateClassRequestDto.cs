@@ -2,6 +2,8 @@
 {
     public class UpdateClassRequestDto
     {
+        public Guid Id { get; set; }
+
         public string ClassName { get; set; }
 
         public string ClassNumber { get; set; }

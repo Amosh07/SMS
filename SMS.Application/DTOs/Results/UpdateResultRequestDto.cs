@@ -2,6 +2,8 @@
 {
     public class UpdateResultRequestDto
     {
+        public Guid Id { get; set; }
+
         public string Grade { get; set; }
 
         public Guid ExamId { get; set; }

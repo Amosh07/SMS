@@ -2,6 +2,8 @@
 {
     public class UpdateAttendanceRequestDto
     {
+        public Guid Id { get; set; }
+
         public DateTime Date { get; set; }
 
         public Guid StudentId { get; set; }

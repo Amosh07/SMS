@@ -33,12 +33,28 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertExam(InsertExamDto insertExamDto)
         {
-            throw new NotImplementedException();
+            var existingExam = genericRepository.GetFirstOrDefault<Exam>(x => x.ExamName == insertExamDto.Examname);
+
+            if (existingExam != null)
+            {
+                throw new NotFoundException("The following Exam is already exists");
+            }
+            var examModel = new Exam()
+            {
+                ExamName = insertExamDto.Examname,
+
+                IsActive = true
+            };
+            genericRepository.Insert(examModel);
         }
 
         public void UpdateExamDetails(UpdateExamRequestDto exam)
         {
-            throw new NotImplementedException();
+            var examModel = genericRepository.GetById<Exam>(exam.Id)
+                                                ?? throw new NotFoundException("The Exam was not found.");
+            examModel.ExamName = exam.Examname;
+
+            genericRepository.Update(examModel);
         }
     }
 }

@@ -33,12 +33,28 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertAttendance(InsertAttendanceDto insertAttendanceDto)
         {
-            throw new NotImplementedException();
+            var existingAttendance = genericRepository.GetFirstOrDefault<Attendance>(x => x.Date == insertAttendanceDto.Date);
+
+            if (existingAttendance != null)
+            {
+                throw new NotFoundException("The following Attendance is already exists");
+            }
+            var attendanceModel = new Attendance()
+            {
+                Date = insertAttendanceDto.Date,
+
+                IsActive = true
+            };
+            genericRepository.Insert(attendanceModel);
         }
 
         public void UpdateAttendanceDetails(UpdateAttendanceRequestDto attendance)
         {
-            throw new NotImplementedException();
+            var attendanceModel = genericRepository.GetById<Attendance>(attendance.Id)
+                                                                        ?? throw new NotFoundException("The Attendance was not found.");
+            attendanceModel.Date = attendance.Date;
+
+            genericRepository.Update(attendanceModel);
         }
     }
 }

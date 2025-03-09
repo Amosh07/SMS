@@ -1,5 +1,4 @@
 ﻿using SMS.Application.DTOs.Subject;
-using SMS.Application.DTOs.Teacher;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
@@ -50,7 +49,12 @@ namespace SMS.Identity.Implementation.Services
 
         public void UpdateSubjectDetails(UpdateSubjectRequestDto subject)
         {
-            throw new NotImplementedException();
+            var subjectModel = genericRepository.GetById<Subject>(subject.Id)
+                        ?? throw new NotFoundException("The Subject was not found.");
+
+            subjectModel.SubjectName = subject.SubjectName;
+            
+            genericRepository.Update(subjectModel);
         }
     }
 }

@@ -10,19 +10,7 @@ namespace SMS.API.Controllers
     [Route("api/student")]
     public class StudentController(IStudentService studentService) : BaseController<StudentController>
     {
-        [HttpPost("InsertStudent")]
-        public IActionResult InsertStudent(InsertStudentDto insertStudentDto)
-        {
-            studentService.InsertStudent(insertStudentDto);
-
-            return Ok(new ResponseDto<bool>()
-            {
-                StatusCode = (int)HttpStatusCode.OK,
-                Message = "Student details insert successfully.",
-                Result = true
-            });
-        }
-
+       
         [HttpGet("{Id:guid}")]
         public IActionResult GetTeacherDetails(Guid Id)
         {
