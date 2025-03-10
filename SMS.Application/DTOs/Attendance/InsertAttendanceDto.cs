@@ -2,10 +2,15 @@
 {
     public class InsertAttendanceDto
     {
+        public Guid StudentId { get; set; }
+
+        public Guid TeacherId { get; set; }
+
+        public Guid ClassId { get; set; }
+
         public DateTime Date { get; set; }
 
-        public Guid StudentId { get; set; } 
-        
+      
         public Guid TeacherID { get; set; }
     }
 }

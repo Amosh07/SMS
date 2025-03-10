@@ -11,12 +11,7 @@ namespace SMS.Domain.Entities.Identity
         public string? ImageURL { get; set; }
         public DateTime RegisteredDate { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; }
-
-        // Foreign Keys
-        public Guid? TeacherId { get; set; }
-        public Guid? StudentId { get; set; }
-        public virtual Teacher? Teacher { get; set; }
-        public virtual Student? Student { get; set; }
+        
     }
 }
 

@@ -24,6 +24,32 @@ namespace SMS.API.Controllers
             });
         }
 
+        [HttpGet("{teacherId:guid}")]
+        public IActionResult GetProfileByTeacherId(Guid teacherId)
+        {
+            var result = userService.GetAllTeacherById(teacherId);
+
+            return Ok(new ResponseDto<TeacherDetails>()
+            {
+                Message = " Teacher profile successfully retrieved.",
+                StatusCode = (int)HttpStatusCode.OK,
+                Result = result
+            });
+        } 
+
+        [HttpGet("{studentId:guid}")]
+        public IActionResult GetProfileByStudentId(Guid studentId)
+        {
+            var result = userService.GetAllStudentById(studentId);
+
+            return Ok(new ResponseDto<StudentDetails>()
+            {
+                Message = " Teacher profile successfully retrieved.",
+                StatusCode = (int)HttpStatusCode.OK,
+                Result = result
+            });
+        }
+
         [HttpGet("list")]
         public IActionResult GetUsersByRole(string? search, Guid? roleId)
         {

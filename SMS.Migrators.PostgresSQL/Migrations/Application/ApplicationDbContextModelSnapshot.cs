@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SMS.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace SMS.Migrators.PostgresSQL.Migrations.Applications
+namespace SMS.Migrators.PostgresSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250309073024_DbSetup")]
-    partial class DbSetup
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,10 +74,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
 
                     b.HasIndex("LastModifiedBy");
 
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TeacherId");
-
                     b.ToTable("Attendances");
                 });
 
@@ -121,9 +114,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Property<int>("RoomNumber")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -131,8 +121,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.HasIndex("DeletedUserId");
 
                     b.HasIndex("LastModifiedBy");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Classes");
                 });
@@ -308,12 +296,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("StudentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uuid");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -329,10 +311,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -453,9 +431,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Property<Guid?>("LastModifiedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -466,68 +441,7 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
 
                     b.HasIndex("LastModifiedBy");
 
-                    b.HasIndex("StudentId");
-
                     b.ToTable("Results");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Student", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("ClassId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("DeletedBy");
-
-                    b.HasIndex("LastModifiedBy");
-
-                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Subject", b =>
@@ -567,9 +481,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
@@ -580,60 +491,7 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
 
                     b.HasIndex("LastModifiedBy");
 
-                    b.HasIndex("TeacherId");
-
                     b.ToTable("Subjects");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Teacher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Number")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("DeletedBy");
-
-                    b.HasIndex("LastModifiedBy");
-
-                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Attendance", b =>
@@ -656,14 +514,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
-                    b.HasOne("SMS.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.HasOne("SMS.Domain.Entities.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId");
-
                     b.Navigation("Class");
 
                     b.Navigation("CreateUser");
@@ -671,10 +521,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Class", b =>
@@ -693,17 +539,11 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
-                    b.HasOne("SMS.Domain.Entities.Teacher", "Teacher")
-                        .WithMany("Classes")
-                        .HasForeignKey("TeacherId");
-
                     b.Navigation("CreateUser");
 
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Exam", b =>
@@ -748,21 +588,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Identity.User", b =>
-                {
-                    b.HasOne("SMS.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.HasOne("SMS.Domain.Entities.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId");
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Identity.UserClaims", b =>
@@ -829,50 +654,11 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
-                    b.HasOne("SMS.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CreateUser");
 
                     b.Navigation("DeletedUser");
 
                     b.Navigation("Exam");
-
-                    b.Navigation("LastModifiedUser");
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Student", b =>
-                {
-                    b.HasOne("SMS.Domain.Entities.Class", "Class")
-                        .WithMany("Students")
-                        .HasForeignKey("ClassId");
-
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "CreateUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "DeletedUser")
-                        .WithMany()
-                        .HasForeignKey("DeletedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "LastModifiedUser")
-                        .WithMany()
-                        .HasForeignKey("LastModifiedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Class");
-
-                    b.Navigation("CreateUser");
-
-                    b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
                 });
@@ -897,10 +683,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
-                    b.HasOne("SMS.Domain.Entities.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId");
-
                     b.Navigation("Class");
 
                     b.Navigation("CreateUser");
@@ -908,43 +690,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Applications
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
-
-                    b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Teacher", b =>
-                {
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "CreateUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "DeletedUser")
-                        .WithMany()
-                        .HasForeignKey("DeletedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "LastModifiedUser")
-                        .WithMany()
-                        .HasForeignKey("LastModifiedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreateUser");
-
-                    b.Navigation("DeletedUser");
-
-                    b.Navigation("LastModifiedUser");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Class", b =>
-                {
-                    b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Teacher", b =>
-                {
-                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,11 +7,5 @@ namespace SMS.Domain.Entities
     {
         public string ClassName { get; set; }
         public int RoomNumber { get; set; }
-
-        [ForeignKey(nameof(Teacher))]
-        public Guid? TeacherId { get; set; }
-        public virtual Teacher? Teacher { get; set; }
-
-        public virtual ICollection<Student> Students { get; set; } = new List<Student>();
     }
 }

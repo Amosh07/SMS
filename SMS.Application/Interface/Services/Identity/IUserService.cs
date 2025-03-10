@@ -8,6 +8,10 @@ namespace SMS.Application.Interface.Services.Identity
     {
         UserDetail GetUserProfileById(Guid userId);
 
+        TeacherDetails GetAllTeacherById(Guid teacherId);
+
+        StudentDetails GetAllStudentById(Guid studentId);
+
         List<UserResponseDto> GetUsersByRole(string? search = null, Guid? roleId = default);
 
         void UpdateUserDetails(UpdateUserRequestDto user);

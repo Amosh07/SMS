@@ -10,9 +10,5 @@ namespace SMS.Domain.Entities
         [ForeignKey(nameof(Class))]
         public Guid? ClassId { get; set; }
         public virtual Class? Class { get; set; }
-
-        [ForeignKey(nameof(Teacher))]
-        public Guid? TeacherId { get; set; }
-        public virtual Teacher? Teacher { get; set; }
     }
 }

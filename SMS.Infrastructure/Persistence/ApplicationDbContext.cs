@@ -45,11 +45,7 @@ namespace SMS.Infrastructure.Persistence
 
         public  DbSet<Result> Results { get; set; }
 
-        public  DbSet<Student> Students { get; set; }
-
         public  DbSet<Subject> Subjects { get; set; }
-
-        public  DbSet<Teacher> Teachers { get; set; }
 
         public IDbConnection Connection => Database.GetDbConnection();
         #endregion
@@ -142,42 +138,6 @@ namespace SMS.Infrastructure.Persistence
                 .HasOne(s => s.CreateUser)
                 .WithMany()
                 .HasForeignKey(s => s.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Student>()
-                .HasOne(sd => sd.CreateUser)
-                .WithMany()
-                .HasForeignKey(sd => sd.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Student>()
-                .HasOne(sd => sd.LastModifiedUser)
-                .WithMany()
-                .HasForeignKey(sd => sd.LastModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Student>()
-                .HasOne(sd => sd.DeletedUser)
-                .WithMany()
-                .HasForeignKey(sd => sd.DeletedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Teacher>()
-                .HasOne(t => t.CreateUser)
-                .WithMany()
-                .HasForeignKey(t => t.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Teacher>()
-                .HasOne(t => t.LastModifiedUser)
-                .WithMany()
-                .HasForeignKey(t => t.LastModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Teacher>()
-                .HasOne(t => t.DeletedUser)
-                .WithMany()
-                .HasForeignKey(t => t.DeletedBy)
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
 

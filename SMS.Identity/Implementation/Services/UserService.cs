@@ -26,6 +26,62 @@ namespace SMS.Identity.Implementation.Services
             genericRepository.Update(userModel);
         }
 
+        public StudentDetails GetAllStudentById(Guid studentId)
+        {
+            var user = genericRepository.GetById<User>(studentId)
+                    ?? throw new NotFoundException("The user was not found.");
+
+            var userRole = genericRepository.GetFirstOrDefault<UserRoles>(x => x.UserId == user.Id)
+                ?? throw new NotFoundException("The following user has not been assigned to any role.");
+
+            var role = genericRepository.GetById<Role>(userRole.RoleId)
+                 ?? throw new NotFoundException("The following role could not be found.");
+
+            var result = new StudentDetails()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                RoleId = role.Id,
+                RoleName = role.Name ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                ImageUrl = user.ImageURL,
+                Gender = user.Gender.ToString(),
+                PhoneNumber = user.PhoneNumber ?? string.Empty,
+                Address = user.Address ?? string.Empty,
+                IsActive = user.IsActive,
+            };
+
+            return result;
+        }
+
+        public TeacherDetails GetAllTeacherById(Guid teacherId)
+        {
+            var user = genericRepository.GetById<User>(teacherId)
+                    ?? throw new NotFoundException("The user was not found.");
+
+            var userRole = genericRepository.GetFirstOrDefault<UserRoles>(x => x.UserId == user.Id)
+                ?? throw new NotFoundException("The following user has not been assigned to any role.");
+
+            var role = genericRepository.GetById<Role>(userRole.RoleId)
+                 ?? throw new NotFoundException("The following role could not be found.");
+
+            var result = new TeacherDetails()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                RoleId = role.Id,
+                RoleName = role.Name ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                ImageUrl = user.ImageURL,
+                Gender = user.Gender.ToString(),
+                PhoneNumber = user.PhoneNumber ?? string.Empty,
+                Address = user.Address ?? string.Empty,
+                IsActive = user.IsActive,
+            };
+
+            return result;
+        }
+
         public UserDetail GetUserProfileById(Guid userId)
         {
             var user = genericRepository.GetById<User>(userId)
