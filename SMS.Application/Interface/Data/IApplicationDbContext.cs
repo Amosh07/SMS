@@ -33,11 +33,8 @@ namespace SMS.Application.Interface.Data
 
         DbSet<Result> Results { get; set; }
 
-        DbSet<Student> Students { get; set; }
 
         DbSet<Subject> Subjects { get; set; }
-
-        DbSet<Teacher> Teachers { get; set; }
         #endregion
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

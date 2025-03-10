@@ -6,36 +6,36 @@ using SMS.Domain.Entities;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class TeacherService(IGenericRepository genericRepository) : ITeacherService
-    {
-        public void ActivateDeactivateTeacher(Guid teacherId)
-        {
-                var teacherModel = genericRepository.GetById<Teacher>(teacherId)
-                 ?? throw new NotFoundException("The teacher was not found.");
+    //public class TeacherService(IGenericRepository genericRepository) : ITeacherService
+    //{
+    //    public void ActivateDeactivateTeacher(Guid teacherId)
+    //    {
+    //            var teacherModel = genericRepository.GetById<Teacher>(teacherId)
+    //             ?? throw new NotFoundException("The teacher was not found.");
 
-                teacherModel.IsActive = !teacherModel.IsActive;
+    //            teacherModel.IsActive = !teacherModel.IsActive;
 
-                genericRepository.Update(teacherModel);
-            }
+    //            genericRepository.Update(teacherModel);
+    //        }
 
-        public GetTeacherDetailDto GetTeacherDetails(Guid Id)
-        {
-            var teacherModel = genericRepository.GetById<Teacher>(Id)
-                 ?? throw new NotFoundException("The Teacher was not found.");
+    //    public GetTeacherDetailDto GetTeacherDetails(Guid Id)
+    //    {
+    //        var teacherModel = genericRepository.GetById<Teacher>(Id)
+    //             ?? throw new NotFoundException("The Teacher was not found.");
 
-            var result = new GetTeacherDetailDto()
-            {
-                Name = teacherModel.Name,
-                Address = teacherModel.Address,
-                Email = teacherModel.Email,
-                Number = teacherModel.Number
-            };
+    //        var result = new GetTeacherDetailDto()
+    //        {
+    //            Name = teacherModel.Name,
+    //            Address = teacherModel.Address,
+    //            Email = teacherModel.Email,
+    //            Number = teacherModel.Number
+    //        };
 
-            return result;
+    //        return result;
 
-        }
+    //    }
 
-        public void UpdateTeacherDetails(UpdateTeacherRequestDto teacher)
+        /*public void UpdateTeacherDetails(UpdateTeacherRequestDto teacher)
         {
             var teacherModel = genericRepository.GetById<Teacher>(teacher.Id)
                         ?? throw new NotFoundException("The Teacher was not found.");
@@ -45,6 +45,5 @@ namespace SMS.Identity.Implementation.Services
             teacherModel.Email = teacher.Email;
             teacherModel.Address = teacher.Address;
             genericRepository.Update(teacherModel);
-        }
-    }
+        }*/
 }

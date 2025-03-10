@@ -7,10 +7,6 @@ namespace SMS.Domain.Entities
     {
         public string Grade { get; set; }
 
-        [ForeignKey(nameof(Student))]
-        public Guid StudentId { get; set; }
-        public virtual Student? Student { get; set; }
-
         [ForeignKey(nameof(Exam))]
         public Guid ExamId { get; set; }
         public virtual Exam? Exam { get; set; }

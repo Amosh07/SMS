@@ -7,33 +7,33 @@ using System.Net;
 
 namespace SMS.API.Controllers
 {
-    [Route("api/student")]
-    public class StudentController(IStudentService studentService) : BaseController<StudentController>
-    {
+    //[Route("api/student")]
+    //public class StudentController(IStudentService studentService) : BaseController<StudentController>
+    //{
        
-        [HttpGet("{Id:guid}")]
-        public IActionResult GetTeacherDetails(Guid Id)
-        {
-            var result = studentService.GetStudentDetails(Id);
+    //    [HttpGet("{Id:guid}")]
+    //    public IActionResult GetTeacherDetails(Guid Id)
+    //    {
+    //        var result = studentService.GetStudentDetails(Id);
 
-            return Ok(new ResponseDto<GetStudentDetailDto>()
-            {
-                StatusCode = (int)HttpStatusCode.OK,
-                Message = "Student details successfully retrieved",
-                Result = result
-            });
-        }
-        [HttpPut]
-        public IActionResult UpdateStudentDetails(UpdateStudentRequestDto student)
-        {
-            studentService.UpdateStudentDetails(student);
+    //        return Ok(new ResponseDto<GetStudentDetailDto>()
+    //        {
+    //            StatusCode = (int)HttpStatusCode.OK,
+    //            Message = "Student details successfully retrieved",
+    //            Result = result
+    //        });
+    //    }
+    //    [HttpPut]
+    //    public IActionResult UpdateStudentDetails(UpdateStudentRequestDto student)
+    //    {
+    //        studentService.UpdateStudentDetails(student);
 
-            return Ok(new ResponseDto<bool>()
-            {
-                StatusCode = (int)HttpStatusCode.OK,
-                Message = "Student details successfully updated.",
-                Result = true
-            });
-        }
-    }
+    //        return Ok(new ResponseDto<bool>()
+    //        {
+    //            StatusCode = (int)HttpStatusCode.OK,
+    //            Message = "Student details successfully updated.",
+    //            Result = true
+    //        });
+    //    }
+    //}
 }
