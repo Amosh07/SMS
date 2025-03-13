@@ -11,7 +11,7 @@ namespace SMS.API.Controllers
     [Route("api/user")]
     public class UserController(IUserService userService) : BaseController<UserController>
     {
-        [HttpGet("{userId:guid}")]
+        [HttpGet("user/{userId:guid}")]
         public IActionResult GetProfileByUserId(Guid userId)
         {
             var result = userService.GetUserProfileById(userId);
@@ -24,7 +24,7 @@ namespace SMS.API.Controllers
             });
         }
 
-        [HttpGet("{teacherId:guid}")]
+        [HttpGet("teacher/{teacherId:guid}")]
         public IActionResult GetProfileByTeacherId(Guid teacherId)
         {
             var result = userService.GetAllTeacherById(teacherId);
@@ -35,9 +35,9 @@ namespace SMS.API.Controllers
                 StatusCode = (int)HttpStatusCode.OK,
                 Result = result
             });
-        } 
+        }
 
-        [HttpGet("{studentId:guid}")]
+        [HttpGet("student/{studentId:guid}")]
         public IActionResult GetProfileByStudentId(Guid studentId)
         {
             var result = userService.GetAllStudentById(studentId);
