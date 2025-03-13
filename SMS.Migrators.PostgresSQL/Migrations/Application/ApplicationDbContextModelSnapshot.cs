@@ -111,9 +111,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Property<Guid?>("LastModifiedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");

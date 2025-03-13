@@ -1,4 +1,5 @@
-﻿using SMS.Application.DTOs.Class;
+﻿using SMS.Application.Common.User;
+using SMS.Application.DTOs.Class;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
@@ -6,7 +7,7 @@ using SMS.Domain.Entities;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class ClassService(IGenericRepository genericRepository) : IClassService
+    public class ClassService(IGenericRepository genericRepository, ICurrentUserService currentUserService) : IClassService
     {
         public void ActivateDeactivateClass(Guid classId)
         {
@@ -43,7 +44,8 @@ namespace SMS.Identity.Implementation.Services
             var classModel = new Class()
             {
                 ClassName = insertClassDto.ClassName,
-
+                CreatedBy = currentUserService.GetUserId,
+                CreatedAt = DateTime.UtcNow,
                 IsActive = true
             };
             genericRepository.Insert(classModel);
