@@ -428,6 +428,9 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Property<Guid?>("LastModifiedBy")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -437,6 +440,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.HasIndex("ExamId");
 
                     b.HasIndex("LastModifiedBy");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Results");
                 });
@@ -651,6 +656,12 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CreateUser");
 
                     b.Navigation("DeletedUser");
@@ -658,6 +669,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Navigation("Exam");
 
                     b.Navigation("LastModifiedUser");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Subject", b =>
