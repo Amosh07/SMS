@@ -1,4 +1,5 @@
-﻿using SMS.Application.DTOs.Exam;
+﻿using SMS.Application.Common.User;
+using SMS.Application.DTOs.Exam;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
@@ -6,7 +7,7 @@ using SMS.Domain.Entities;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class ExamService(IGenericRepository genericRepository) : IExamService
+    public class ExamService(IGenericRepository genericRepository, ICurrentUserService currentUserService) : IExamService
     {
         public void ActivateDeactivateExam(Guid examId)
         {
@@ -25,7 +26,8 @@ namespace SMS.Identity.Implementation.Services
 
             var result = new GetExamDetailDto()
             {
-                ExamName = examModel.ExamName,
+                
+              
             };
 
             return result;
@@ -33,17 +35,21 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertExam(InsertExamDto insertExamDto)
         {
-            var existingExam = genericRepository.GetFirstOrDefault<Exam>(x => x.ExamName == insertExamDto.Examname);
+            /* var existingExam = genericRepository.GetFirstOrDefault<Exam>(x => x.ExamName == insertExamDto.Examname);
 
-            if (existingExam != null)
-            {
-                throw new NotFoundException("The following Exam is already exists");
-            }
+             if (existingExam != null)
+             {
+                 throw new NotFoundException("The following Exam is already exists");
+             }*/
+
             var examModel = new Exam()
             {
-                ExamName = insertExamDto.Examname,
-
-                IsActive = true
+                SubjectId = insertExamDto.SubjectId,
+                ClassId = insertExamDto.ClassId,
+                IsActive = true,
+                CreatedBy = currentUserService.GetUserId,
+                CreatedAt = DateTime.UtcNow
+                
             };
             genericRepository.Insert(examModel);
         }
@@ -52,8 +58,6 @@ namespace SMS.Identity.Implementation.Services
         {
             var examModel = genericRepository.GetById<Exam>(exam.Id)
                                                 ?? throw new NotFoundException("The Exam was not found.");
-            examModel.ExamName = exam.Examname;
-
             genericRepository.Update(examModel);
         }
     }

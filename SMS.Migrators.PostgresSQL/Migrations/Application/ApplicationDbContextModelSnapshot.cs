@@ -146,10 +146,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Property<Guid?>("DeletedUserId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ExamName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -157,6 +153,9 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("StudentId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("SubjectId")
@@ -171,6 +170,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.HasIndex("DeletedUserId");
 
                     b.HasIndex("LastModifiedBy");
+
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectId");
 
@@ -568,6 +569,10 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
                     b.HasOne("SMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId");
@@ -579,6 +584,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
+
+                    b.Navigation("Student");
 
                     b.Navigation("Subject");
                 });
