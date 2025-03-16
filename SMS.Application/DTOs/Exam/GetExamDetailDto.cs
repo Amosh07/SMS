@@ -4,6 +4,6 @@
     {
         public Guid Id { get; set; }
 
-        public String ExamName { get; set; }
+        public string SubjectId { get; set; }
     }
 }
