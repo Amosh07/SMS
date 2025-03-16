@@ -223,6 +223,7 @@ namespace SMS.Identity.Implementation.Services
                 NormalizedEmail = teacher.Email.ToUpper(),
                 PhoneNumber = teacher.PhoneNumber,
                 Gender = teacher.Gender,
+                Address = teacher.Address,
                 ImageURL = userImageUrl,
                 IsActive = false,
                 PhoneNumberConfirmed = true,
