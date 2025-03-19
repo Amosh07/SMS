@@ -9,8 +9,5 @@
         public Guid ClassId { get; set; }
 
         public DateTime Date { get; set; }
-
-      
-        public Guid TeacherID { get; set; }
     }
 }

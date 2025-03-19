@@ -33,16 +33,17 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertAttendance(InsertAttendanceDto insertAttendanceDto)
         {
-            var existingAttendance = genericRepository.GetFirstOrDefault<Attendance>(x => x.Date == insertAttendanceDto.Date);
+            //var existingAttendance = genericRepository.GetFirstOrDefault<Attendance>(x => x.Date == insertAttendanceDto.Date);
 
-            if (existingAttendance != null)
-            {
-                throw new NotFoundException("The following Attendance is already exists");
-            }
+            //if (existingAttendance != null)
+            //{
+            //    throw new NotFoundException("The following Attendance is already exists");
+            //}
             var attendanceModel = new Attendance()
             {
+                TeacherId = insertAttendanceDto.TeacherId,
+                StudentId = insertAttendanceDto.StudentId,
                 Date = insertAttendanceDto.Date,
-
                 IsActive = true
             };
             genericRepository.Insert(attendanceModel);

@@ -1,4 +1,5 @@
-﻿using SMS.Application.DTOs.Results;
+﻿using SMS.Application.Common.User;
+using SMS.Application.DTOs.Results;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
@@ -6,7 +7,7 @@ using SMS.Domain.Entities;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class ResultService(IGenericRepository genericRepository) : IResultService
+    public class ResultService(IGenericRepository genericRepository , ICurrentUserService currentUserService) : IResultService
     {
         public void ActivateDeactivateResult(Guid resultId)
         {
@@ -33,16 +34,19 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertResult(InsertResultDto insertResultDto)
         {
-            var existingResult = genericRepository.GetFirstOrDefault<Result>(x => x.Grade == insertResultDto.Grade);
+            //var existingResult = genericRepository.GetFirstOrDefault<Result>(x => x.Grade == insertResultDto.Grade);
 
-            if (existingResult != null)
-            {
-                throw new NotFoundException("The following Results is already exists");
-            }
+            //if (existingResult != null)
+            //{
+            //    throw new NotFoundException("The following Results is already exists");
+            //}
             var resultModel = new Result()
             {
                 Grade = insertResultDto.Grade,
-               
+                StudentId = insertResultDto.StudentId, 
+                ExamId = insertResultDto.ExamId,
+                CreatedBy = currentUserService.GetUserId,
+                CreatedAt = DateTime.UtcNow,
                 IsActive = true
             };
             genericRepository.Insert(resultModel);

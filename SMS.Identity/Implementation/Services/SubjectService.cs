@@ -35,12 +35,6 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertSubject(InsertSubjectDto insertSubjectDto)
         {
-            var existingSubject = genericRepository.GetFirstOrDefault<Subject>(x => x.SubjectName == insertSubjectDto.SubjectName);
-
-            if (existingSubject != null)
-            {
-                throw new NotFoundException("The following Subject is already exists");
-            }
             var subjectModel = new Subject()
             {
                 SubjectName = insertSubjectDto.SubjectName,
