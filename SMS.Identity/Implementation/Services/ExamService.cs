@@ -26,7 +26,7 @@ namespace SMS.Identity.Implementation.Services
 
             var result = new GetExamDetailDto()
             {
-                SubjectId = examModel.SubjectId.ToString()
+               // SubjectId = examModel.SubjectId.ToString()
             };
 
             return result;

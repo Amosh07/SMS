@@ -4,6 +4,10 @@
     {
         public Guid Id { get; set; }
 
-        public string SubjectId { get; set; }
+        public string SubjectName { get; set; }
+
+        public string Classes { get; set; }
+
+        public string StudentName { get; set; }
     }
 }
