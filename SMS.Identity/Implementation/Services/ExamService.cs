@@ -34,12 +34,13 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertExam(InsertExamDto insertExamDto)
         {
-            var existingExam = genericRepository.GetFirstOrDefault<Exam>(x => x.Id == insertExamDto.SubjectId);
+            /*var existingExam = genericRepository.GetFirstOrDefault<Exam>(x => x.Id == insertExamDto.SubjectId);
 
-            if (existingExam != null)
-            {
-                throw new NotFoundException("The following Exam is already exists");
-            }
+             if (existingExam != null)
+             {
+                 throw new NotFoundException("The following Exam is already exists");
+             }*/
+
             var examModel = new Exam()
             {
                 SubjectId = insertExamDto.SubjectId,
