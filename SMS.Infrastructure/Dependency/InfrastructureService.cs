@@ -35,7 +35,7 @@ namespace SMS.Infrastructure.Dependency
 
             EnsureDatabaseMigrated(services);
 
-           // services.EnableCors(configuration);
+            services.EnableCors(configuration);
 
             return services;
         }
