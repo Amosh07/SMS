@@ -1,5 +1,7 @@
+using Serilog;
 using SMS.API.Configurations;
 using SMS.API.Middleware;
+using SMS.Domain.Common;
 using SMS.Identity.Dependency;
 using SMS.Infrastructure.Dependency;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -34,6 +36,11 @@ services.AddCustomSwaggerGen();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddSwaggerGen();
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -54,6 +61,12 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
         options.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
     });
 }
+
+app.UseHttpsRedirection();
+
+app.UseCors(Constants.Cors.MyAllowSpecificOrigins);
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
