@@ -12,8 +12,8 @@ using SMS.Infrastructure.Persistence;
 namespace SMS.Migrators.PostgresSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250316150908_updateExam")]
-    partial class updateExam
+    [Migration("20250327155359_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
