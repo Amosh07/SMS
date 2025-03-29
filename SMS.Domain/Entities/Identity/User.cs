@@ -11,6 +11,8 @@ namespace SMS.Domain.Entities.Identity
         public string? ImageURL { get; set; }
         public DateTime RegisteredDate { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; }
+
+        public ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
     }
 }
 

@@ -19,5 +19,9 @@ namespace SMS.Application.Interface.Services.Identity
         string ResetUserPassword(ResetUserPasswordDto resetPassword);
 
         void ActivateDeactivateUsers(Guid userId);
+
+        List<TeacherDetails> GetTeacherList();
+
+        List<StudentDetails> GetStudentList();
     }
 }

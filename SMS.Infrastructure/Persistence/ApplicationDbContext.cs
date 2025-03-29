@@ -180,6 +180,19 @@ namespace SMS.Infrastructure.Persistence
                 .OnDelete(DeleteBehavior.Restrict);
 
             #endregion*/
+
+            builder.Entity<UserRoles>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            builder.Entity<UserRoles>()
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserId);
+
+            builder.Entity<UserRoles>()
+                .HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId);
         }
     }
 }
