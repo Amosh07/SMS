@@ -173,7 +173,7 @@ namespace SMS.Identity.Implementation.Services
                                                    x.RoleId == teacherRole.Id).ToList();
 
             var users = genericRepository.Get<User>(x =>
-                    teacherUserIds.Select(u => u.UserId).Contains(x.Id) && !x.IsActive);
+                    teacherUserIds.Select(u => u.UserId).Contains(x.Id) && x.IsActive);
 
             return users.Select(x => new TeacherDetails()
             {
