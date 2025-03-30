@@ -76,6 +76,12 @@ namespace SMS.Identity.Dependency
                     };
                 });
 
+            ConfigManager.Host = configuration.GetValue<string>("Email:Host");
+            ConfigManager.Port = configuration.GetValue<int>("Email:Port");
+            ConfigManager.From = configuration.GetValue<string>("Email:From");
+            ConfigManager.UserName = configuration.GetValue<string>("Email:UserName");
+            ConfigManager.Password = configuration.GetValue<string>("Email:Password");
+
             services.AddAuthorization();
 
             return services;

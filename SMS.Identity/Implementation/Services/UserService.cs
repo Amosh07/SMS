@@ -1,4 +1,5 @@
-﻿using SMS.Application.DTOs.Identity;
+﻿using System;
+using SMS.Application.DTOs.Identity;
 using SMS.Application.DTOs.User;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
@@ -160,6 +161,61 @@ namespace SMS.Identity.Implementation.Services
             userModel.Address = user.Address;
            
             genericRepository.Update(userModel);
+        }
+
+        public List<TeacherDetails> GetAllTeachers()
+        {
+            var teacherRole = genericRepository.GetFirstOrDefault<Role>(x =>
+                                                x.Name == Constants.Roles.Teacher)
+                              ?? throw new NotFoundException("The following role has not been registered to our system.");
+
+            var teacherUserIds = genericRepository.Get<UserRoles>(x =>
+                                                   x.RoleId == teacherRole.Id).ToList();
+
+            var users = genericRepository.Get<User>(x =>
+                    teacherUserIds.Select(u => u.UserId).Contains(x.Id) && !x.IsActive);
+
+            return users.Select(x => new TeacherDetails()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                RoleId = teacherRole.Id,
+                RoleName = Constants.Roles.Student,
+                Email = x.Email ?? string.Empty,
+                ImageUrl = x.ImageURL,
+                Gender = x.Gender.ToString(),
+                PhoneNumber = x.PhoneNumber ?? string.Empty,
+                Address = x.Address ?? string.Empty,
+                IsActive = x.IsActive,
+            }).ToList();
+        }
+
+        public List<StudentDetails> GetAllStudents()
+        {
+            var studentRole = genericRepository.GetFirstOrDefault<Role>(x =>
+                                                x.Name == Constants.Roles.Student)
+                              ?? throw new NotFoundException("The following role has not been registered to our system.");
+
+            var teacherUserIds = genericRepository.Get<UserRoles>(x =>
+                                                   x.RoleId == studentRole.Id).ToList();
+
+            var users = genericRepository.Get<User>(x =>
+                    teacherUserIds.Select(u => u.UserId).Contains(x.Id) && x.IsActive);
+
+            return users.Select(x => new StudentDetails()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                RoleId = studentRole.Id,
+                RoleName = Constants.Roles.Student,
+                Email = x.Email ?? string.Empty,
+                ImageUrl = x.ImageURL,
+                Gender = x.Gender.ToString(),
+                PhoneNumber = x.PhoneNumber ?? string.Empty,
+                Address = x.Address ?? string.Empty,
+                IsActive = x.IsActive,
+            }).ToList();
+
         }
     }
 }
