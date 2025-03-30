@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SMS.Application.Common.Email;
 using SMS.Application.Common.User;
 using SMS.Application.DTOs.Identity;
 using SMS.Application.Exceptions;
@@ -12,6 +13,7 @@ using SMS.Domain.Common;
 using SMS.Domain.Entities.Identity;
 using SMS.Helper;
 using SMS.Identity.Implementation.Manager;
+using SMS.Infrastructure.Implementation.Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -25,7 +27,8 @@ namespace SMS.Identity.Implementation.Services
     ICurrentUserService userService,
     TokenManager tokenManager,
     IGenericRepository genericRepository,
-    IFileService fileService) : IAuthenticationService
+    IFileService fileService,
+    IEmailService emailService) : IAuthenticationService
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
@@ -308,6 +311,8 @@ namespace SMS.Identity.Implementation.Services
                 {
                     await userManager.AddToRoleAsync(userModel, role.Name!);
                 }
+
+                await emailService.SendEmailAsync(user.Email, "User Created", "Your account has been successfully created.");
             }
             else
             {
