@@ -619,21 +619,17 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
 
             modelBuilder.Entity("SMS.Domain.Entities.Identity.UserRoles", b =>
                 {
-                    b.HasOne("SMS.Domain.Entities.Identity.Role", "Role")
-                        .WithMany("UserRoles")
+                    b.HasOne("SMS.Domain.Entities.Identity.Role", null)
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SMS.Domain.Entities.Identity.User", "User")
-                        .WithMany("UserRoles")
+                    b.HasOne("SMS.Domain.Entities.Identity.User", null)
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Identity.UserToken", b =>
@@ -711,16 +707,6 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Identity.Role", b =>
-                {
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Identity.User", b =>
-                {
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

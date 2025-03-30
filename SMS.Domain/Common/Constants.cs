@@ -51,13 +51,5 @@
         {
             public const string PasswordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/";
         }
-
-        public abstract class RolesId
-        {
-            public const string TeacherRoleId = "def10000-e86b-52c2-42d2-08dca196874f";
-
-            public const string StudentRoleId = "def10000-e86b-52c2-4389-08dca196874f";
-        }
-      
     }
 }

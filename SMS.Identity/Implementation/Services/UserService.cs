@@ -1,5 +1,4 @@
-﻿using SMS.Application.Converter;
-using SMS.Application.DTOs.Identity;
+﻿using SMS.Application.DTOs.Identity;
 using SMS.Application.DTOs.User;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
@@ -161,47 +160,6 @@ namespace SMS.Identity.Implementation.Services
             userModel.Address = user.Address;
            
             genericRepository.Update(userModel);
-        }
-
-        public List<StudentDetails> GetStudentList()
-        {
-            List<StudentDetails> result = new();
-            var studentList = genericRepository.Get<User>(
-                                             filter: u => u.UserRoles
-                                            .Any(ur => ur.Role.Id == new Guid(Constants.RolesId.StudentRoleId)),
-                                             includeProperties: "UserRoles").ToList();
-
-            if(studentList.Any())
-            {
-                result = Converter.ToStudentDto(studentList);
-            }
-            else
-            {
-                throw new NotFoundException("No Students Found.");
-            }
-
-            return result;
-        }
-
-        public List<TeacherDetails> GetTeacherList()
-        {
-            List<TeacherDetails> result = new();
-            var teacherList = genericRepository.Get<User>(
-                                              filter: u => u.UserRoles
-                                             .Any(ur => ur.Role.Id == new Guid(Constants.RolesId.TeacherRoleId)),
-                                              includeProperties: "UserRoles").ToList();
-
-            if(teacherList.Any())
-            {
-                result = Converter.ToTeacherDto(teacherList);
-            }
-            else
-            {
-                throw new NotFoundException("No Teachers Found.");
-            }
-
-            return result;
-
         }
     }
 }

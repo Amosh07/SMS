@@ -12,7 +12,6 @@ using SMS.Infrastructure.Persistence;
 using System.Security.Claims;
 using System.Text;
 using SMS.Helper;
-using SMS.Infrastructure.Implementation.Helper;
 
 namespace SMS.Identity.Dependency
 {
@@ -76,14 +75,6 @@ namespace SMS.Identity.Dependency
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"] ?? string.Empty)),
                     };
                 });
-
-            ConfigManager.Host = configuration.GetValue<string>("Email:Host");
-            ConfigManager.Port = configuration.GetValue<int>("Email:Port");
-            ConfigManager.From = configuration.GetValue<string>("Email:From");
-            ConfigManager.UserName = configuration.GetValue<string>("Email:UserName");
-            ConfigManager.Password = configuration.GetValue<string>("Email:Password");
-
-            services.AddSingleton<IEmailService, EmailService>();
 
             services.AddAuthorization();
 
