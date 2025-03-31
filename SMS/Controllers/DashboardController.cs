@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Dashboard;
 using SMS.Application.Interface.Services;
@@ -7,7 +8,7 @@ using System.Net;
 namespace SMS.API.Controllers
 {
     [Route("api/dashboard")]
-    public class DashboardController(IDashboardService dashboardService) : Controller
+    public class DashboardController(IDashboardService dashboardService) : BaseController<DashboardController>
     {
         #region Admin
         [HttpGet("admin/dashboard-count")]
