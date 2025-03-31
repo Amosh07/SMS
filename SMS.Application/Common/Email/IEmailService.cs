@@ -1,9 +1,10 @@
 ﻿using SMS.Application.Common.Service;
+using SMS.Application.DTOs.Email;
 
 namespace SMS.Application.Common.Email
 {
     public interface IEmailService : ISingetonService
     {
-        Task SendEmailAsync(string email, string subject, string htmlMessage);
+        Task SendEmail(EmailDto emailDto);
     }
 }

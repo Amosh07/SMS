@@ -312,7 +312,7 @@ namespace SMS.Identity.Implementation.Services
                     await userManager.AddToRoleAsync(userModel, role.Name!);
                 }
 
-                await emailService.SendEmailAsync(user.Email, "User Created", "Your account has been successfully created.");
+                //await emailService.SendEmailAsync(user.Email, "User Created", "Your account has been successfully created.");
             }
             else
             {

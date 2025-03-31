@@ -28,7 +28,8 @@
 
         private abstract class FolderPath
         {
-            public const string Images = "images";   
+            public const string Images = "images";
+            public const string EmailTemplates = "email-templates";
         }
 
         public abstract class Provider
@@ -45,7 +46,8 @@
         public abstract class FilePath
         {
             public const string UsersImagesFilePath = $"{FolderPath.Images}/user-images/";
-            
+            public const string EmailTemplateFilePath = $"{FolderPath.EmailTemplates}/";
+
         }
         public abstract class Authentication
         {
