@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Identity;
@@ -66,6 +67,23 @@ namespace SMS.API.Controllers
                 Message = result.Message,
                 Result = result
             });
+        }
+
+        [HttpPost("logout")]
+        public Task<IActionResult> Logout()
+        {
+            var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+
+            authenticationService.ExpireToken(accessToken);
+
+            var result = new ResponseDto<bool>()
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "User successfully logged out.",
+                Result = true
+            };
+
+            return Task.FromResult<IActionResult>(Ok(result));
         }
 
     }

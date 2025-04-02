@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SMS.Application.Exceptions;
+using SMS.Application.Settings;
 using SMS.Domain.Common;
 using SMS.Domain.Common.Enum;
 using SMS.Domain.Entities.Identity;
@@ -12,6 +13,7 @@ namespace SMS.Infrastructure.Persistence.Seed
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
+       // private readonly MenuSettings _menuSettings = menuSettings.Value;
 
         public DbInitializer(
             ApplicationDbContext context,
