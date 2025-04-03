@@ -33,8 +33,11 @@ namespace SMS.Application.Interface.Data
 
         DbSet<Result> Results { get; set; }
 
-
         DbSet<Subject> Subjects { get; set; }
+
+        DbSet<Menu> Menus { get; set; }
+
+        DbSet<RoleRights> RoleRights { get; set; }
         #endregion
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

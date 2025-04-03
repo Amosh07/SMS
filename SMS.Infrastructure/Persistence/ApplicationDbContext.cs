@@ -47,6 +47,10 @@ namespace SMS.Infrastructure.Persistence
 
         public  DbSet<Subject> Subjects { get; set; }
 
+        public DbSet<Menu> Menus { get; set; }
+
+        public DbSet<RoleRights> RoleRights { get; set; }
+
         public IDbConnection Connection => Database.GetDbConnection();
         #endregion
 
@@ -139,6 +143,19 @@ namespace SMS.Infrastructure.Persistence
                 .WithMany()
                 .HasForeignKey(s => s.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            builder.Entity<Menu>()
+                .HasOne(m => m.CreateUser)
+                .WithMany()
+                .HasForeignKey(s => s.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<RoleRights>()
+                .HasOne(rr=> rr.CreateUser)
+                .WithMany()
+                .HasForeignKey (rr => rr.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+                
             #endregion
 
 
