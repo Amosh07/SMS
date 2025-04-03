@@ -1,29 +1,35 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SMS.Application.Exceptions;
 using SMS.Application.Settings;
 using SMS.Domain.Common;
 using SMS.Domain.Common.Enum;
+using SMS.Domain.Entities;
 using SMS.Domain.Entities.Identity;
 using SMS.Helper;
 
 namespace SMS.Infrastructure.Persistence.Seed
 {
     public class DbInitializer : IDbInitilizer
-    {
+    { 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-       // private readonly MenuSettings _menuSettings = menuSettings.Value;
+        private readonly MenuSettings _menuSettings;
 
         public DbInitializer(
             ApplicationDbContext context,
             UserManager<User> userManager,
-            RoleManager<Role> roleManager)
+            RoleManager<Role> roleManager,
+            IOptions<MenuSettings> menuSettings)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            _menuSettings = menuSettings.Value;
         }
+
         public async Task InitializeIdentityData(CancellationToken cancellationToken)
         {
             var user = await InitializeSuperAdmin(cancellationToken);
@@ -123,6 +129,71 @@ namespace SMS.Infrastructure.Persistence.Seed
             await _userManager.UpdateAsync(user);
             return user;
         }
-    }
-   
+
+        public async Task InitializeMenuData(CancellationToken cancellationToken = default)
+        {
+            await OnInitializeMenuAndRoleAssignment(cancellationToken);
+        }
+
+        private async Task OnInitializeMenuAndRoleAssignment(CancellationToken cancellationToken = default)
+        {
+            var menus = _menuSettings.Menus;
+
+            foreach (var menu in menus)
+            {
+                await ProcessMenu(menu, null, cancellationToken);
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task ProcessMenu(MenuConfiguration menuConfiguration, Guid? parentMenuId, CancellationToken cancellationToken)
+        {
+            var admin = await _userManager.FindByIdAsync(Constants.SuperAdmin.Identifier)
+                        ?? throw new NotFoundException("An admin user has not been registered to the system.");
+
+            var existingMenu = await _context.Menus.FirstOrDefaultAsync(
+                m => m.Id == new Guid(menuConfiguration.Id),
+                cancellationToken);
+
+            if (existingMenu != null)
+            {
+                existingMenu.Title = menuConfiguration.Title;
+                existingMenu.Description = menuConfiguration.Description;
+                existingMenu.Sequence = menuConfiguration.Sequence;
+                existingMenu.Url = menuConfiguration.Url;
+                existingMenu.IsActive = menuConfiguration.IsActive;
+                existingMenu.ParentMenuId = parentMenuId;
+
+                _context.Menus.Update(existingMenu);
+            }
+            else
+            {
+                var newMenu = new Menu
+                {
+                    Id = new Guid(menuConfiguration.Id),
+                    Title = menuConfiguration.Title,
+                    Description = menuConfiguration.Description,
+                    Sequence = menuConfiguration.Sequence,
+                    Url = menuConfiguration.Url,
+                    IsActive = menuConfiguration.IsActive,
+                    CreatedBy = admin.Id,
+                    CreatedAt = DateTime.UtcNow,
+                    ParentMenuId = parentMenuId
+                };
+
+                await _context.Menus.AddAsync(newMenu, cancellationToken);
+
+                existingMenu = newMenu;
+            }
+
+            if (menuConfiguration.ChildMenus != null)
+            {
+                foreach (var childMenu in menuConfiguration.ChildMenus)
+                {
+                    await ProcessMenu(childMenu, existingMenu.Id, cancellationToken);
+                }
+            }
+        }
+    }  
 }
