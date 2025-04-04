@@ -53,5 +53,11 @@
         {
             public const string PasswordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/";
         }
+
+        public abstract class Navigation
+        {
+            public const string ResetPassword = "reset-password";
+            public const string ResourceMaterialDownload = "resource/view";
+        }
     }
 }

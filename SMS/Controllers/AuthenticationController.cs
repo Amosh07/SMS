@@ -69,6 +69,7 @@ namespace SMS.API.Controllers
             });
         }
 
+        [AllowAnonymous]
         [HttpPost("logout")]
         public Task<IActionResult> Logout()
         {
