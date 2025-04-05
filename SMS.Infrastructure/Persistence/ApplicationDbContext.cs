@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SMS.Application.Common.User;
+using SMS.Application.Exceptions;
 using SMS.Application.Interface.Data;
 using SMS.Application.Settings;
 using SMS.Domain.Common;
+using SMS.Domain.Common.Base;
 using SMS.Domain.Entities;
 using SMS.Domain.Entities.Identity;
 using SMS.Helper;
@@ -26,12 +28,11 @@ namespace SMS.Infrastructure.Persistence
 
         public override DbSet<UserClaims> UserClaims { get; set; }
 
-        public override DbSet<UserLogin> UserLogins { get; set; }
-
         public override DbSet<UserRoles> UserRoles { get; set; }
 
-        public override DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<UserToken> UserToken { get; set; }
 
+        public DbSet<UserLogin> UserLogin { get; set; }
 
         #endregion
 
@@ -47,11 +48,23 @@ namespace SMS.Infrastructure.Persistence
 
         public  DbSet<Subject> Subjects { get; set; }
 
+        public DbSet<Menu> Menus { get; set; }
+
+        public DbSet<RoleRights> RoleRights { get; set; }
+
+        public override int SaveChanges()
+        {
+            UpdateLogs();
+
+            return base.SaveChanges();
+        }
+
         public IDbConnection Connection => Database.GetDbConnection();
         #endregion
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            UpdateLogs();
 
             return await base.SaveChangesAsync(cancellationToken);
         }
@@ -102,11 +115,11 @@ namespace SMS.Infrastructure.Persistence
 
             builder.Entity<UserRoles>().ToTable("UserRoles");
 
-            builder.Entity<UserLogin>().ToTable("UserLogins");
+            builder.Entity<UserLogin>().ToTable("LoginAttempts");
 
             builder.Entity<RoleClaims>().ToTable("RoleClaims");
 
-            builder.Entity<UserToken>().ToTable("UserTokens");
+            builder.Entity<UserToken>().ToTable("Tokens");
             #endregion
 
             #region User Model Configuration
@@ -139,6 +152,18 @@ namespace SMS.Infrastructure.Persistence
                 .WithMany()
                 .HasForeignKey(s => s.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                builder.Entity<Menu>()
+               .HasOne(q => q.CreateUser)
+               .WithMany()
+               .HasForeignKey(q => q.CreatedBy)
+               .OnDelete(DeleteBehavior.Restrict);
+
+                builder.Entity<RoleRights>()
+               .HasOne(q => q.CreateUser)
+               .WithMany()
+               .HasForeignKey(q => q.CreatedBy)
+               .OnDelete(DeleteBehavior.Restrict);
             #endregion
 
 
@@ -180,6 +205,88 @@ namespace SMS.Infrastructure.Persistence
                 .OnDelete(DeleteBehavior.Restrict);
 
             #endregion*/
+        }
+
+        private void UpdateLogs()
+        {
+            var entries = ChangeTracker.Entries()
+                .Where(e => e is { Entity: BaseEntity<Guid> or BaseEntity<string>, State: EntityState.Added or EntityState.Modified or EntityState.Deleted });
+
+            if (currentUserService == null)
+            {
+                throw new NotFoundException("The following user has not been registered to our system.");
+            }
+
+            var dateTime = ExtensionMethod.GetUtcDate();
+
+            var userId = currentUserService.GetUserId;
+
+            foreach (var entry in entries)
+            {
+                UpdateEntityLog(entry.Entity, entry.State, userId, dateTime);
+            }
+        }
+
+        private static void UpdateEntityLog<TEntity>(TEntity entity, EntityState state, Guid userId, DateTime dateTime)
+        where TEntity : class
+        {
+            switch (state)
+            {
+                case EntityState.Added:
+                    {
+                        switch (entity)
+                        {
+                            case BaseEntity<Guid> guidEntity:
+                                guidEntity.CreatedAt = dateTime;
+                                if (guidEntity.CreatedBy == Guid.Empty) guidEntity.CreatedBy = userId;
+                                break;
+                            case BaseEntity<string> stringEntity:
+                                stringEntity.CreatedAt = dateTime;
+                                if (stringEntity.CreatedBy == Guid.Empty) stringEntity.CreatedBy = userId;
+                                break;
+                        }
+                        break;
+                    }
+
+                case EntityState.Modified:
+                    {
+                        switch (entity)
+                        {
+                            case BaseEntity<Guid> guidEntity:
+                                guidEntity.LastModifiedAt = dateTime;
+                                if (guidEntity.CreatedBy == Guid.Empty) guidEntity.LastModifiedBy = userId;
+                                break;
+                            case BaseEntity<string> stringEntity:
+                                stringEntity.LastModifiedAt = dateTime;
+                                if (stringEntity.CreatedBy == Guid.Empty) stringEntity.LastModifiedBy = userId;
+                                break;
+                        }
+                        break;
+                    }
+
+                case EntityState.Deleted:
+                    {
+                        switch (entity)
+                        {
+                            case BaseEntity<Guid> guidEntity:
+                                guidEntity.DeletedAt = dateTime;
+                                if (guidEntity.DeletedBy == Guid.Empty) guidEntity.DeletedBy = userId;
+                                break;
+                            case BaseEntity<string> stringEntity:
+                                stringEntity.DeletedAt = dateTime;
+                                if (stringEntity.DeletedBy == Guid.Empty) stringEntity.DeletedBy = userId;
+                                break;
+                        }
+                        break;
+                    }
+
+                case EntityState.Detached:
+                case EntityState.Unchanged:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
     }
 }

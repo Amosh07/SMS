@@ -1,4 +1,5 @@
-﻿using SMS.Application.DTOs.Attendance;
+﻿using SMS.Application.Common.User;
+using SMS.Application.DTOs.Attendance;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
@@ -6,7 +7,7 @@ using SMS.Domain.Entities;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class AttendanceService(IGenericRepository genericRepository) : IAttendanceService
+    public class AttendanceService(IGenericRepository genericRepository, ICurrentUserService currentUserService) : IAttendanceService
     {
         public void ActivateDeactivateAttendance(Guid attendanceId)
         {
@@ -44,6 +45,8 @@ namespace SMS.Identity.Implementation.Services
                 TeacherId = insertAttendanceDto.TeacherId,
                 StudentId = insertAttendanceDto.StudentId,
                 Date = insertAttendanceDto.Date,
+                CreatedBy = currentUserService.GetUserId,
+                CreatedAt = DateTime.UtcNow,
                 IsActive = true
             };
             genericRepository.Insert(attendanceModel);

@@ -35,6 +35,10 @@ namespace SMS.Infrastructure.Dependency
 
             EnsureDatabaseMigrated(services);
 
+            services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
+
+            services.Configure<MenuSettings>(configuration.GetSection(nameof(MenuSettings)));
+
             services.EnableCors(configuration);
 
             return services;

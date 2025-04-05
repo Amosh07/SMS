@@ -5,5 +5,7 @@ namespace SMS.Infrastructure.Persistence.Seed
     public interface IDbInitilizer : IScopeService
     {
         Task InitializeIdentityData(CancellationToken cancellationToken = default);
+
+        Task InitializeMenuData(CancellationToken cancellationToken = default);
     }
 }

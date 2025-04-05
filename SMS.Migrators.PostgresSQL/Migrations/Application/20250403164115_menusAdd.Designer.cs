@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SMS.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using SMS.Infrastructure.Persistence;
 namespace SMS.Migrators.PostgresSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403164115_menusAdd")]
+    partial class menusAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -392,6 +395,67 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SMS.Domain.Entities.Menu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("DeletedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ParentMenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedUserId");
+
+                    b.HasIndex("LastModifiedBy");
+
+                    b.HasIndex("ParentMenuId");
+
+                    b.ToTable("Menus");
+                });
+
             modelBuilder.Entity("SMS.Domain.Entities.Result", b =>
                 {
                     b.Property<Guid>("Id")
@@ -445,6 +509,57 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.HasIndex("StudentId");
 
                     b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("SMS.Domain.Entities.RoleRights", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("DeletedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedUserId");
+
+                    b.HasIndex("LastModifiedBy");
+
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleRights");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Subject", b =>
@@ -641,6 +756,35 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SMS.Domain.Entities.Menu", b =>
+                {
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "CreateUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "DeletedUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedUserId");
+
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "LastModifiedUser")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedBy");
+
+                    b.HasOne("SMS.Domain.Entities.Menu", "ParentMenuModule")
+                        .WithMany("ChildMenus")
+                        .HasForeignKey("ParentMenuId");
+
+                    b.Navigation("CreateUser");
+
+                    b.Navigation("DeletedUser");
+
+                    b.Navigation("LastModifiedUser");
+
+                    b.Navigation("ParentMenuModule");
+                });
+
             modelBuilder.Entity("SMS.Domain.Entities.Result", b =>
                 {
                     b.HasOne("SMS.Domain.Entities.Identity.User", "CreateUser")
@@ -680,6 +824,45 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("SMS.Domain.Entities.RoleRights", b =>
+                {
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "CreateUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "DeletedUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedUserId");
+
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "LastModifiedUser")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedBy");
+
+                    b.HasOne("SMS.Domain.Entities.Menu", "Menu")
+                        .WithMany("RoleRights")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SMS.Domain.Entities.Identity.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreateUser");
+
+                    b.Navigation("DeletedUser");
+
+                    b.Navigation("LastModifiedUser");
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("SMS.Domain.Entities.Subject", b =>
                 {
                     b.HasOne("SMS.Domain.Entities.Class", "Class")
@@ -707,6 +890,13 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
+                });
+
+            modelBuilder.Entity("SMS.Domain.Entities.Menu", b =>
+                {
+                    b.Navigation("ChildMenus");
+
+                    b.Navigation("RoleRights");
                 });
 #pragma warning restore 612, 618
         }

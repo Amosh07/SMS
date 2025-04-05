@@ -14,7 +14,7 @@
             public const string Identifier = "939b340f-44d7-4bd0-abb5-1a6424d6de11";
             public const string Name = "Connect Admin";
             public const string Email = "amoshhamal7@gmail.com";
-            public const string DecryptedPassword = "0FmR7l3AqXgXf+mDhqfnTg==";
+            public const string DecryptedPassword = "0FmR7l3AqXgXf+mDhqfnTga==";
         }
         public abstract class DbProviderKey
         {
@@ -28,7 +28,8 @@
 
         private abstract class FolderPath
         {
-            public const string Images = "images";   
+            public const string Images = "images";
+            public const string EmailTemplates = "email-templates";
         }
 
         public abstract class Provider
@@ -45,11 +46,18 @@
         public abstract class FilePath
         {
             public const string UsersImagesFilePath = $"{FolderPath.Images}/user-images/";
-            
+            public const string EmailTemplateFilePath = $"{FolderPath.EmailTemplates}/";
+
         }
         public abstract class Authentication
         {
             public const string PasswordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/";
+        }
+
+        public abstract class Navigation
+        {
+            public const string ResetPassword = "reset-password";
+            public const string ResourceMaterialDownload = "resource/view";
         }
     }
 }

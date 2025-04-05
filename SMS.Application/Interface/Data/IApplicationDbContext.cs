@@ -17,11 +17,11 @@ namespace SMS.Application.Interface.Data
 
         DbSet<UserClaims> UserClaims { get; set; }
 
-        DbSet<UserLogin> UserLogins { get; set; }
-
-        DbSet<UserToken> UserTokens { get; set; }
-
         DbSet<RoleClaims> RoleClaims { get; set; }
+
+        DbSet<UserLogin> UserLogin { get; set; }
+
+        DbSet<UserToken> UserToken { get; set; }
         #endregion
 
         #region Modules
@@ -33,11 +33,18 @@ namespace SMS.Application.Interface.Data
 
         DbSet<Result> Results { get; set; }
 
+        DbSet<Menu> Menus { get; set; }
+
+        DbSet<RoleRights> RoleRights { get; set; }
 
         DbSet<Subject> Subjects { get; set; }
         #endregion
 
+        #region Function
+        int SaveChanges();
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        #endregion
 
         IDbConnection Connection { get; }
 

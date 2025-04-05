@@ -88,5 +88,31 @@ namespace SMS.API.Controllers
                 Result = true
             });
         }
+
+        [HttpGet("GetAllTeachers")]
+        public IActionResult GetAllTeachers()
+        {
+            var result = userService.GetAllTeachers();
+
+            return Ok(new ResponseDto<List<TeacherDetails>>()
+            {
+                Message = "Profile successfully retrieved.",
+                StatusCode = (int)HttpStatusCode.OK,
+                Result = result
+            });
+        }
+
+        [HttpGet("GetAllStudents")]
+        public IActionResult GetAllStudents()
+        {
+            var result = userService.GetAllStudents();
+
+            return Ok(new ResponseDto<List<StudentDetails>>()
+            {
+                Message = "Profile successfully retrieved.",
+                StatusCode = (int)HttpStatusCode.OK,
+                Result = result
+            });
+        }
     }
 }

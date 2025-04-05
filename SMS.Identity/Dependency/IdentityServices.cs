@@ -32,8 +32,11 @@ namespace SMS.Identity.Dependency
             {
                 options.UseDatabase(databaseSettings.DbProvider, connectionString!);
             });
+
             services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
+
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>()!);
+
             services.AddIdentity<User, Role>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
