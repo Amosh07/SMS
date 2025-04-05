@@ -27,7 +27,7 @@ namespace SMS.API.Controllers
                 Result = result,
             });
         }
-
+        [AllowAnonymous]
         [HttpPost("user-registration")]
         public async Task<IActionResult> UserRegister([FromForm] UserRegisterDto registration)
         {
