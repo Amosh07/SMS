@@ -9,6 +9,8 @@ namespace SMS.Application.Interface.Services
 
         GetClassDetailDto GetClassDetails(Guid Id);
 
+        List<GetClassDetailDto> GetAllClassDetails();
+
         void UpdateClassDetails(UpdateClassRequestDto @class);
 
         void ActivateDeactivateClass(Guid classId);

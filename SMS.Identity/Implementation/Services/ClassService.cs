@@ -19,6 +19,19 @@ namespace SMS.Identity.Implementation.Services
             genericRepository.Update(classModel);
         }
 
+        public List<GetClassDetailDto> GetAllClassDetails()
+        {
+           var @class = genericRepository.Get<Class>();
+
+            var result = @class.Select(x => new GetClassDetailDto
+            {
+                Id = x.Id,
+                ClassName = x.ClassName
+            }).ToList();
+
+            return result;
+        }
+
         public GetClassDetailDto GetClassDetails(Guid Id)
         {
             var classModel = genericRepository.GetById<Class>(Id)
@@ -27,7 +40,6 @@ namespace SMS.Identity.Implementation.Services
             var result = new GetClassDetailDto()
             {
                 ClassName = classModel.ClassName,
-                ClassNumber = classModel.ClassName
             };
 
             return result;
