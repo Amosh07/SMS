@@ -71,7 +71,7 @@ namespace SMS.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("logout")]
-        public Task<IActionResult> Logout()
+        public Task<IActionResult> LogOut()
         {
             var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
 

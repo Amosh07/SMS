@@ -1,5 +1,6 @@
 ﻿using SMS.Application.Common.Service;
 using SMS.Application.DTOs.Results;
+using SMS.Application.DTOs.Subject;
 
 namespace SMS.Application.Interface.Services
 {
@@ -8,6 +9,9 @@ namespace SMS.Application.Interface.Services
         void InsertResult(InsertResultDto insertResultDto);
 
         GetResultDetailDto GetResultDetails(Guid Id);
+
+        List<GetResultDetailDto> GetAllResultDetails();
+
 
         void UpdateResultDetails(UpdateResultRequestDto result);
 

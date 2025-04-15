@@ -9,6 +9,8 @@ namespace SMS.Application.Interface.Services
 
         GetSubjectDetailDto GetSubjectDetails(Guid Id);
 
+        List<GetSubjectDetailDto> GetAllSubjectDetails();
+
         void UpdateSubjectDetails(UpdateSubjectRequestDto subject);
 
         void ActivateDeactivateSubject(Guid subjectId);

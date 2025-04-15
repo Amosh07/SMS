@@ -6,8 +6,6 @@ namespace SMS.Domain.Entities
 {
     public class Exam : BaseEntity<Guid>
     {
-
-
         [ForeignKey(nameof(Subject))]
         public Guid? SubjectId { get; set; }
         public virtual Subject? Subject { get; set; }

@@ -47,5 +47,18 @@ namespace SMS.API.Controllers
                 Result = true
             });
         }
+        [HttpGet("getAllSubject")]
+        public IActionResult GetAllSubjectDetails()
+            {
+                var result = subjectService.GetAllSubjectDetails();
+
+                return Ok(new ResponseDto<List<GetSubjectDetailDto>>
+                {
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Message = "Subject details fetched successfully",
+                    Result = result
+                });
+        }
     }
 }
+
