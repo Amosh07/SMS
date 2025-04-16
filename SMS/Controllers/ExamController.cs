@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
+using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Exam;
 using SMS.Application.Interface.Services;
+using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -46,6 +48,18 @@ namespace SMS.API.Controllers
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Exam details successfully updated.",
                 Result = true
+            });
+        }
+        [HttpGet("getAllExam")]
+        public IActionResult GetAllExamDetails()
+        {
+            var result = examService.GetAllExamDetails();
+
+            return Ok(new ResponseDto<List<GetExamDetailDto>>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Exam details fetched successfully",
+                Result = result
             });
         }
     }

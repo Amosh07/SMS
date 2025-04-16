@@ -19,6 +19,19 @@ namespace SMS.Identity.Implementation.Services
                 genericRepository.Update(subjectModel);
             }
 
+        public List<GetSubjectDetailDto> GetAllSubjectDetails()
+        {
+            var subjects = genericRepository.Get<Subject>();
+
+            var result = subjects.Select(x => new GetSubjectDetailDto
+            {
+                Id = x.Id,
+                SubjectName = x.SubjectName
+            }).ToList();
+
+            return result;
+        }
+
         public GetSubjectDetailDto GetSubjectDetails(Guid Id)
         {
             var SubjectModel = genericRepository.GetById<Subject>(Id)

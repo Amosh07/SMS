@@ -19,6 +19,19 @@ namespace SMS.Identity.Implementation.Services
             genericRepository.Update(attendanceModel);
         }
 
+        public List<GetAttendanceDetailDto> GetAllAttendanceDetails()
+        {
+            var attendances = genericRepository.Get<Attendance>();
+
+            var result = attendances.Select(x => new GetAttendanceDetailDto
+            {
+                Id = x.Id,
+                Date = x.Date
+            }).ToList();
+
+            return result;
+        }
+
         public GetAttendanceDetailDto GetAttendanceDetails(Guid Id)
         {
             var attendanceModel = genericRepository.GetById<Attendance>(Id)

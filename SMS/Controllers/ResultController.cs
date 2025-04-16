@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
+using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Results;
 using SMS.Application.Interface.Services;
+using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -46,6 +48,18 @@ namespace SMS.API.Controllers
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "User details successfully updated.",
                 Result = true
+            });
+        }
+        [HttpGet("getAllResult")]
+        public IActionResult GetAllResultDetails()
+        {
+            var result = resultService.GetAllResultDetails();
+
+            return Ok(new ResponseDto<List<GetResultDetailDto>>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Result details fetched successfully",
+                Result = result
             });
         }
     }

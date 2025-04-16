@@ -9,6 +9,8 @@ namespace SMS.Application.Interface.Services
 
         GetExamDetailDto GetExamDetails(Guid Id);
 
+        List<GetExamDetailDto> GetAllExamDetails();
+
         void UpdateExamDetails(UpdateExamRequestDto exam);
 
         void ActivateDeactivateExam(Guid examId);

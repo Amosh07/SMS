@@ -19,6 +19,24 @@ namespace SMS.Identity.Implementation.Services
             genericRepository.Update(examModel);
         }
 
+        public List<GetExamDetailDto> GetAllExamDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        //public List<GetExamDetailDto> GetAllExamDetails()
+        //{
+        //    //var Exams = genericRepository.Get<Exam>();
+
+        //    //var result = Exams.Select(x => new GetExamDetailDto
+        //    //{
+        //    //    Id = x.Id,
+        //    //    SubjectName = x.SubjectName
+        //    //}).ToList();
+
+        //    //return result;
+        //}
+
         public GetExamDetailDto GetExamDetails(Guid Id)
         {
             var examModel = genericRepository.GetById<Exam>(Id)

@@ -9,6 +9,8 @@ namespace SMS.Application.Interface.Services
 
         GetAttendanceDetailDto GetAttendanceDetails(Guid Id);
 
+        List<GetAttendanceDetailDto> GetAllAttendanceDetails();
+
         void UpdateAttendanceDetails(UpdateAttendanceRequestDto attendance);
 
         void ActivateDeactivateAttendance(Guid attendanceId);
