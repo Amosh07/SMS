@@ -87,7 +87,6 @@ namespace SMS.Identity.Implementation.Services
 
             return result;
         }
-
         private void LoadChildMenus(Menu menu)
         {
             var childMenus = genericRepository.Get<Menu>(m => m.ParentMenuId == menu.Id, includeProperties: "ChildMenus").OrderBy(x => x.Sequence).ToList();
