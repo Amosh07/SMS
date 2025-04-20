@@ -1,10 +1,9 @@
 ﻿using SMS.Application.Common.Service;
 using SMS.Application.DTOs.Teacher;
-using SMS.Application.DTOs.User;
 
 namespace SMS.Application.Interface.Services
 {
-   public interface ITeacherService : ITransientService
+    public interface ITeacherService : ITransientService
    {
         GetTeacherDetailDto GetTeacherDetails(Guid Id);
 
