@@ -6,6 +6,7 @@ using SMS.Application.Interface.Services.Identity;
 
 namespace SMS.API.Attributes
 {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class TokenHandlerAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)

@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\css\**" />
+    <Compile Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\css\**" />
+    <Content Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\css\**" />
+    <EmbeddedResource Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\css\**" />
+    <None Remove="wwwroot\js\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,12 +34,6 @@
     <ProjectReference Include="..\SMS.Identity\SMS.Identity.csproj" />
     <ProjectReference Include="..\SMS.Infrastructure\SMS.Infrastructure.csproj" />
     <ProjectReference Include="..\SMS.Migrators.PostgresSQL\SMS.Migrators.PostgresSQL.csproj" />
-  </ItemGroup> 
-
-  <ItemGroup>
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\Images\user-images\" />
-    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>
