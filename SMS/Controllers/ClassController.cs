@@ -48,5 +48,18 @@ namespace SMS.API.Controllers
                 Result = true
             });
         }
+
+        [HttpGet("getAllClass")]
+        public IActionResult GetAllClassDetails()
+        {
+            var result = classService.GetAllClassDetails();
+
+            return Ok(new ResponseDto<List<GetClassDetailDto>>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Class details fetched successfully",
+                Result = result
+            });
+        }
     }
 }
