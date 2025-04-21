@@ -23,7 +23,7 @@ namespace SMS.API.Controllers
             });
         }
 
-     [HttpGet("{Id:guid}")]
+       [HttpGet("{Id:guid}")]
         public IActionResult GetSubjectDetails(Guid Id)
         {
             var result = subjectService.GetSubjectDetails(Id);
