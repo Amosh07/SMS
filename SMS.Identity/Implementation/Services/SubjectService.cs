@@ -21,13 +21,19 @@ namespace SMS.Identity.Implementation.Services
 
         public List<GetSubjectDetailDto> GetAllSubjectDetails()
         {
-            var subjects = genericRepository.Get<Subject>();
+            var subjects = genericRepository.Get<Subject>().ToList();
 
-            var result = subjects.Select(x => new GetSubjectDetailDto
+            var classes = genericRepository.Get<Class>().ToList();
+
+            var result = subjects.Select(subject => new GetSubjectDetailDto
             {
-                Id = x.Id,
-                SubjectName = x.SubjectName
-            }).ToList();
+                Id = subject.Id,
+                SubjectName = subject.SubjectName,
+                ClassName = classes.FirstOrDefault(c => c.Id == subject.ClassId)!.ClassName ?? "N/A",
+                IsActive = subject.IsActive,
+            }).OrderBy(x => x.ClassName)
+            .ThenBy(x => x.SubjectName)
+            .ToList();
 
             return result;
         }
