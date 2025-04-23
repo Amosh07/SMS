@@ -48,10 +48,11 @@ namespace SMS.API.Controllers
                 Result = true
             });
         }
+
         [HttpGet("getAllAttendance")]
-        public IActionResult GetAllAttendanceDetails()
+        public async Task<IActionResult> GetAllAttendanceDetails()
         {
-            var result = attendanceService.GetAllAttendanceDetails();
+            var result = await attendanceService.GetAllAttendanceDetails();
 
             return Ok(new ResponseDto<List<GetAttendanceDetailDto>>
             {

@@ -51,9 +51,9 @@ namespace SMS.API.Controllers
             });
         }
         [HttpGet("getAllExam")]
-        public IActionResult GetAllExamDetails()
+        public async Task<IActionResult> GetAllExamDetails()
         {
-            var result = examService.GetAllExamDetails();
+            var result = await examService.GetAllExamDetails();
 
             return Ok(new ResponseDto<List<GetExamDetailDto>>
             {

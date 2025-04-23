@@ -4,6 +4,7 @@ using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
 using SMS.Domain.Entities;
+using SMS.Domain.Entities.Identity;
 
 namespace SMS.Identity.Implementation.Services
 {
@@ -21,15 +22,34 @@ namespace SMS.Identity.Implementation.Services
 
         public List<GetResultDetailDto> GetAllResultDetails()
         {
-            var results = genericRepository.Get<Result>();
+            var results = genericRepository.Get<Result>().ToList();
 
-            var result = results.Select(x => new GetResultDetailDto
+            var exams = genericRepository.Get<Exam>().ToList();
+
+            var subjects = genericRepository.Get<Subject>().ToList();
+
+            var users = genericRepository.Get<User>().ToList();
+
+            var result = new List<GetResultDetailDto>();
+
+            foreach(var r in results)
             {
-                Id = x.Id,
-                Grade = x.Grade
-            }).ToList();
+                var exam = exams.FirstOrDefault(e => e.Id == r.ExamId);
+                var subject = subjects.FirstOrDefault(s => s.Id == exam?.SubjectId);
+                var student = users.FirstOrDefault(u => u.Id == r.StudentId);
 
-            return result;
+                var dto = new GetResultDetailDto
+                {
+                    Id = r.Id,
+                    Grade = r.Grade,
+                    SubjectName = subject?.SubjectName ?? "N/A",
+                    StudentName = student?.Name ?? "N/A",
+                    IsActive = r.IsActive 
+                };
+
+                result.Add(dto);
+            }
+            return result;   
         }
 
         public GetResultDetailDto GetResultDetails(Guid Id)

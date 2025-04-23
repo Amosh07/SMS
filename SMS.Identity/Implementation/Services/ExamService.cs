@@ -4,6 +4,7 @@ using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
 using SMS.Domain.Entities;
+using SMS.Domain.Entities.Identity;
 
 namespace SMS.Identity.Implementation.Services
 {
@@ -19,32 +20,53 @@ namespace SMS.Identity.Implementation.Services
             genericRepository.Update(examModel);
         }
 
-        public List<GetExamDetailDto> GetAllExamDetails()
+        public async Task<List<GetExamDetailDto>> GetAllExamDetails()
         {
-            throw new NotImplementedException();
+            var exams = genericRepository.Get<Exam>().ToList();
+            var classes = genericRepository.Get<Class>().ToList();
+            var subjects = genericRepository.Get<Subject>().ToList();
+            var users = genericRepository.Get<User>().ToList();
+
+            var result = new List<GetExamDetailDto>();
+
+            foreach (var exam in exams)
+            {
+                var student = users.FirstOrDefault(u => u.Id == exam.StudentId);
+                var subject = subjects.FirstOrDefault(s => s.Id == exam.SubjectId);
+                var classEntity = classes.FirstOrDefault(c => c.Id == exam.ClassId);
+
+                var dto = new GetExamDetailDto
+                {
+                    Id = exam.Id,
+                    StudentName = student?.Name ?? "N/A",
+                    SubjectName = subject?.SubjectName ?? "N/A",
+                    Classes = classEntity?.ClassName ?? "N/A",
+                    IsActive = exam.IsActive
+                };
+
+                result.Add(dto);
+            }
+
+            return result;
         }
 
-        //public List<GetExamDetailDto> GetAllExamDetails()
-        //{
-        //    //var Exams = genericRepository.Get<Exam>();
-
-        //    //var result = Exams.Select(x => new GetExamDetailDto
-        //    //{
-        //    //    Id = x.Id,
-        //    //    SubjectName = x.SubjectName
-        //    //}).ToList();
-
-        //    //return result;
-        //}
 
         public GetExamDetailDto GetExamDetails(Guid Id)
         {
-            var examModel = genericRepository.GetById<Exam>(Id)
+            var exam = genericRepository.GetById<Exam>(Id)
                                             ?? throw new NotFoundException("The Exam was not found.");
 
-            var result = new GetExamDetailDto()
+            var student = genericRepository.GetById<User>(exam.StudentId);
+            var subject = genericRepository.GetById<Subject>(exam.SubjectId);
+            var classEntity = genericRepository.GetById<Class>(exam.ClassId);
+
+            var result = new GetExamDetailDto
             {
-               // SubjectId = examModel.SubjectId.ToString()
+                Id = exam.Id,
+                StudentName = student?.Name ?? "N/A",
+                SubjectName = subject?.SubjectName ?? "N/A",
+                Classes = classEntity?.ClassName ?? "N/A",
+                IsActive = exam.IsActive
             };
 
             return result;
@@ -52,17 +74,11 @@ namespace SMS.Identity.Implementation.Services
 
         public void InsertExam(InsertExamDto insertExamDto)
         {
-            /*var existingExam = genericRepository.GetFirstOrDefault<Exam>(x => x.Id == insertExamDto.SubjectId);
-
-             if (existingExam != null)
-             {
-                 throw new NotFoundException("The following Exam is already exists");
-             }*/
-
             var examModel = new Exam()
             {
                 SubjectId = insertExamDto.SubjectId,
                 ClassId = insertExamDto.ClassId,
+                StudentId = insertExamDto.StudentId,
                 CreatedBy = currentUserService.GetUserId,
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true

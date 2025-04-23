@@ -1,13 +1,16 @@
-﻿using SMS.Application.Common.User;
+﻿using Microsoft.AspNetCore.Identity;
+using SMS.Application.Common.User;
 using SMS.Application.DTOs.Attendance;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
+using SMS.Domain.Common;
 using SMS.Domain.Entities;
+using SMS.Domain.Entities.Identity;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class AttendanceService(IGenericRepository genericRepository, ICurrentUserService currentUserService) : IAttendanceService
+    public class AttendanceService(IGenericRepository genericRepository, ICurrentUserService currentUserService, UserManager<User> userManager) : IAttendanceService
     {
         public void ActivateDeactivateAttendance(Guid attendanceId)
         {
@@ -19,18 +22,35 @@ namespace SMS.Identity.Implementation.Services
             genericRepository.Update(attendanceModel);
         }
 
-        public List<GetAttendanceDetailDto> GetAllAttendanceDetails()
+        public async Task<List<GetAttendanceDetailDto>> GetAllAttendanceDetails()
         {
-            var attendances = genericRepository.Get<Attendance>();
+            var attendances = genericRepository.Get<Attendance>().ToList();
+            var classes = genericRepository.Get<Class>().ToList();
+            var users = genericRepository.Get<User>().ToList();
 
-            var result = attendances.Select(x => new GetAttendanceDetailDto
+            var result = new List<GetAttendanceDetailDto>();
+
+            foreach (var attendance in attendances)
             {
-                Id = x.Id,
-                Date = x.Date
-            }).ToList();
+                var student = users.FirstOrDefault(u => u.Id == attendance.StudentId);
+                var teacher = users.FirstOrDefault(u => u.Id == attendance.TeacherId);
+
+                var dto = new GetAttendanceDetailDto
+                {
+                    Id = attendance.Id,
+                    Date = attendance.Date,
+                    ClassName = classes.FirstOrDefault(c => c.Id == attendance.ClassId)?.ClassName ?? "N/A",
+                    IsActive = attendance.IsActive,
+                    StudentName = student?.Name ?? "N/A",
+                    TeacherName = teacher?.Name ?? "N/A"
+                };
+
+                result.Add(dto);
+            }
 
             return result;
         }
+
 
         public GetAttendanceDetailDto GetAttendanceDetails(Guid Id)
         {
@@ -57,6 +77,7 @@ namespace SMS.Identity.Implementation.Services
             {
                 TeacherId = insertAttendanceDto.TeacherId,
                 StudentId = insertAttendanceDto.StudentId,
+                ClassId = insertAttendanceDto.ClassId,
                 Date = insertAttendanceDto.Date,
                 CreatedBy = currentUserService.GetUserId,
                 CreatedAt = DateTime.UtcNow,

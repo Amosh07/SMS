@@ -9,7 +9,7 @@ namespace SMS.Application.Interface.Services
 
         GetAttendanceDetailDto GetAttendanceDetails(Guid Id);
 
-        List<GetAttendanceDetailDto> GetAllAttendanceDetails();
+        Task<List<GetAttendanceDetailDto>> GetAllAttendanceDetails();
 
         void UpdateAttendanceDetails(UpdateAttendanceRequestDto attendance);
 

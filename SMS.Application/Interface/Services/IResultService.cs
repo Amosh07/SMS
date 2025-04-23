@@ -12,7 +12,6 @@ namespace SMS.Application.Interface.Services
 
         List<GetResultDetailDto> GetAllResultDetails();
 
-
         void UpdateResultDetails(UpdateResultRequestDto result);
 
         void ActivateDeactivateResult(Guid resultId);
