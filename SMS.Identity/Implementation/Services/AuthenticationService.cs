@@ -237,11 +237,11 @@ namespace SMS.Identity.Implementation.Services
 
             if (result.Succeeded)
             {
-                var candidateRole = await roleManager.FindByNameAsync(Constants.Roles.Teacher);
+                var teacherRole = await roleManager.FindByNameAsync(Constants.Roles.Teacher);
 
-                if (candidateRole != null)
+                if (teacherRole != null)
                 {
-                    await userManager.AddToRoleAsync(user, candidateRole.Name!);
+                    await userManager.AddToRoleAsync(user, teacherRole.Name!);
                 }
             }
             else

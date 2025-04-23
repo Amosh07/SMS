@@ -9,5 +9,7 @@
         public string Classes { get; set; }
 
         public string StudentName { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

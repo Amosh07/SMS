@@ -1,4 +1,5 @@
 ﻿using SMS.Domain.Common.Base;
+using SMS.Domain.Entities.Identity;
 
 namespace SMS.Domain.Entities
 {
@@ -9,6 +10,8 @@ namespace SMS.Domain.Entities
         public Guid? TeacherId { get; set; }
         public Guid? ClassId { get; set; }
         public virtual Class? Class { get; set; }
+
+        public virtual User? User { get; set; }
     }
 }
 

@@ -5,5 +5,7 @@
         public Guid SubjectId { get; set; }
 
         public Guid ClassId { get; set; }
+
+        public Guid StudentId { get; set; }
     }
 }

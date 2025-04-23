@@ -2,9 +2,7 @@
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Attendance;
-using SMS.Application.DTOs.Exam;
 using SMS.Application.Interface.Services;
-using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -50,10 +48,11 @@ namespace SMS.API.Controllers
                 Result = true
             });
         }
+
         [HttpGet("getAllAttendance")]
-        public IActionResult GetAllAttendanceDetails()
+        public async Task<IActionResult> GetAllAttendanceDetails()
         {
-            var result = attendanceService.GetAllAttendanceDetails();
+            var result = await attendanceService.GetAllAttendanceDetails();
 
             return Ok(new ResponseDto<List<GetAttendanceDetailDto>>
             {

@@ -11,7 +11,7 @@ namespace SMS.API.Controllers
     public class DashboardController(IDashboardService dashboardService) : BaseController<DashboardController>
     {
         #region Admin
-        [HttpGet("admin/dashboard-count")]
+        [HttpGet("admin/dashboard-count/{period}")]
         public IActionResult GetAdminDashboardCount(int period)
         {
             var result = dashboardService.GetAdminDashboardCount(period);

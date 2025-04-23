@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SMS.Infrastructure.Persistence;
@@ -12,11 +11,9 @@ using SMS.Infrastructure.Persistence;
 namespace SMS.Migrators.PostgresSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250403164115_menusAdd")]
-    partial class menusAdd
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,6 +64,9 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Property<Guid?>("TeacherId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
@@ -76,6 +76,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.HasIndex("DeletedUserId");
 
                     b.HasIndex("LastModifiedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Attendances");
                 });
@@ -358,7 +360,7 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("LoginAttempts", (string)null);
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Identity.UserRoles", b =>
@@ -392,7 +394,7 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("Tokens", (string)null);
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Menu", b =>
@@ -632,6 +634,10 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                         .WithMany()
                         .HasForeignKey("LastModifiedBy");
 
+                    b.HasOne("SMS.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Class");
 
                     b.Navigation("CreateUser");
@@ -639,6 +645,8 @@ namespace SMS.Migrators.PostgresSQL.Migrations.Application
                     b.Navigation("DeletedUser");
 
                     b.Navigation("LastModifiedUser");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Class", b =>
