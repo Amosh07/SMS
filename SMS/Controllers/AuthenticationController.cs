@@ -13,7 +13,6 @@ namespace SMS.API.Controllers
     [Route("api/authentication")]
     public class AuthenticationController(IAuthenticationService authenticationService) : BaseController<AuthenticationController>
     {
-
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginRequest)

@@ -2,6 +2,7 @@
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
 using SMS.Application.DTOs.Dashboard;
+using SMS.Application.DTOs.UserDashboard;
 using SMS.Application.Interface.Services;
 using System.Net;
 
@@ -20,6 +21,21 @@ namespace SMS.API.Controllers
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Admin dashboard count successfully fetched.",
+                Result = result
+            });
+        }
+        #endregion
+
+        #region User
+        [HttpGet("user/userdashboard-count/{period}")]
+        public IActionResult GetUserDashboardCount(int period)
+        {
+            var result = dashboardService.GetUserDashboardCount(period);
+
+            return Ok(new ResponseDto<GetUserCountDto>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "User dashboard count successfully fetched.",
                 Result = result
             });
         }
