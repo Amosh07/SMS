@@ -114,5 +114,18 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpGet("GetAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            var result = userService.GetAllUsers();
+
+            return Ok(new ResponseDto<List<UserDetail>>()
+            {
+                Message = "Profile successfully retrieved.",
+                StatusCode = (int)HttpStatusCode.OK,
+                Result = result
+            });
+        }
     }
 }

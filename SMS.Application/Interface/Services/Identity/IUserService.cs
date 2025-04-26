@@ -23,5 +23,7 @@ namespace SMS.Application.Interface.Services.Identity
         List<TeacherDetails> GetAllTeachers();
 
         List<StudentDetails> GetAllStudents();
+
+        List<UserDetail> GetAllUsers();
     }
 }

@@ -217,5 +217,32 @@ namespace SMS.Identity.Implementation.Services
             }).ToList();
 
         }
+
+        public List<UserDetail> GetAllUsers()
+        {
+            var userRole = genericRepository.GetFirstOrDefault<Role>(x =>
+                                                            x.Name == Constants.Roles.User)
+                                          ?? throw new NotFoundException("The following role has not been registered to our system.");
+
+            var UserIds = genericRepository.Get<UserRoles>(x =>
+                                                   x.RoleId == userRole.Id).ToList();
+
+            var users = genericRepository.Get<User>(x =>
+                    UserIds.Select(u => u.UserId).Contains(x.Id) && x.IsActive);
+
+            return users.Select(x => new UserDetail()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                RoleId = userRole.Id,
+                RoleName = Constants.Roles.User,
+                Email = x.Email ?? string.Empty,
+                ImageUrl = x.ImageURL,
+                Gender = x.Gender.ToString(),
+                PhoneNumber = x.PhoneNumber ?? string.Empty,
+                Address = x.Address ?? string.Empty,
+                IsActive = x.IsActive,
+            }).ToList();
+        }
     }
 }
