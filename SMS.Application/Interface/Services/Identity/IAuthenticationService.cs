@@ -1,4 +1,5 @@
 ﻿using SMS.Application.Common.Service;
+using SMS.Application.DTOs.EmailConfirmation;
 using SMS.Application.DTOs.Identity;
 
 namespace SMS.Application.Interface.Services.Identity
@@ -12,6 +13,10 @@ namespace SMS.Application.Interface.Services.Identity
         Task<RegistrationResponseDto> TeacherRegister(TeacherRegisterDto candidate);
 
         Task<RegistrationResponseDto> StudentRegister(StudentRegisterDto candidate);
+
+        Task ForgotPassword(ForgotPasswordRequestDto forgotPasswordDto);
+
+        Task ResetPassword(ForgotPasswordEmailRequestDto verifyPasswordDto);
 
         void ExpireToken(string token);
 
