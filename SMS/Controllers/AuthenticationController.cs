@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
+using SMS.Application.DTOs.EmailConfirmation;
 using SMS.Application.DTOs.Identity;
 using SMS.Application.Interface.Services.Identity;
+using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -68,6 +70,35 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequestDto forgotPassword)
+        {
+            await authenticationService.ForgotPassword(forgotPassword);
+
+            return Ok(new ResponseDto<bool>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Email for forgot password successfully sent.",
+                Result = true,
+            });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ForgotPasswordEmailRequestDto forgotPasswordEmail)
+        {
+            await authenticationService.ResetPassword(forgotPasswordEmail);
+
+            return Ok(new ResponseDto<bool>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Password for the following user has been successfully reset.",
+                Result = true,
+            });
+        }
+
 
         [AllowAnonymous]
         [HttpPost("logout")]

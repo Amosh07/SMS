@@ -39,6 +39,8 @@ namespace SMS.Infrastructure.Dependency
 
             services.Configure<MenuSettings>(configuration.GetSection(nameof(MenuSettings)));
 
+            services.Configure<ClientSettings>(configuration.GetSection(nameof(ClientSettings)));
+
             services.EnableCors(configuration);
 
             return services;

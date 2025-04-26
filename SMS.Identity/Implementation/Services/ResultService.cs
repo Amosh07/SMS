@@ -59,7 +59,9 @@ namespace SMS.Identity.Implementation.Services
 
             var result = new GetResultDetailDto()
             {
-                Grade = resultModel.Grade
+                Id = resultModel.Id,
+                Grade = resultModel.Grade,
+
             };
 
             return result;
