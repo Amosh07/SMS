@@ -64,7 +64,7 @@ namespace SMS.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateUserDetails(UpdateUserRequestDto user)
+        public IActionResult UpdateUserDetails([FromBody] UpdateUserRequestDto user)
         {
             userService.UpdateUserDetails(user);
 
