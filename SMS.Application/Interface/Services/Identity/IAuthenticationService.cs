@@ -14,10 +14,6 @@ namespace SMS.Application.Interface.Services.Identity
 
         Task<RegistrationResponseDto> StudentRegister(StudentRegisterDto candidate);
 
-        Task ForgotPassword(ForgotPasswordRequestDto forgotPasswordDto);
-
-        Task ResetPassword(ForgotPasswordEmailRequestDto verifyPasswordDto);
-
         void ExpireToken(string token);
 
         bool IsTokenExpired(string token);

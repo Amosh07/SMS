@@ -83,6 +83,62 @@ namespace SMS.Identity.Implementation.Services
             await emailService.SendEmail(emailDto);
         }
 
+        public async Task StudentRegister(UserRegistrationResponseDto registrationEmail)
+        {
+            if (registrationEmail.UserId == null && registrationEmail.EmailAddress == null)
+            {
+                throw new BadRequestException("A confirmation email could not be sent to the following user's address",
+                    ["Both the user identifier and email address cannot be null."]);
+            }
+
+            var user = registrationEmail.UserId is null
+                ? await userManager.FindByEmailAsync(registrationEmail.EmailAddress!) ??
+                    throw new NotFoundException("The following user has not been registered to our system.")
+                : await userManager.FindByIdAsync(registrationEmail.UserId) ??
+                    throw new NotFoundException("The following user has not been registered to our system.");
+
+            var emailDto = new EmailDto
+            {
+                Name = user.Name,
+                ToEmailAddress = user.Email ?? "",
+                Subject = "Connect CMS - User Registration",
+                // PrimaryMessage = $"{baseUrl}/{encodedToken}/{user.Id}",
+                EmailProcess = EmailProcess.StudentRegister,
+                UserName = user.UserName ?? "",
+                Password = registrationEmail.Password
+            };
+
+            await emailService.SendEmail(emailDto);
+        }
+
+        public async Task TeacherRegister(UserRegistrationResponseDto registrationEmail)
+        {
+            if (registrationEmail.UserId == null && registrationEmail.EmailAddress == null)
+            {
+                throw new BadRequestException("A confirmation email could not be sent to the following user's address",
+                    ["Both the user identifier and email address cannot be null."]);
+            }
+
+            var user = registrationEmail.UserId is null
+                ? await userManager.FindByEmailAsync(registrationEmail.EmailAddress!) ??
+                    throw new NotFoundException("The following user has not been registered to our system.")
+                : await userManager.FindByIdAsync(registrationEmail.UserId) ??
+                    throw new NotFoundException("The following user has not been registered to our system.");
+
+            var emailDto = new EmailDto
+            {
+                Name = user.Name,
+                ToEmailAddress = user.Email ?? "",
+                Subject = "Connect CMS - User Registration",
+                // PrimaryMessage = $"{baseUrl}/{encodedToken}/{user.Id}",
+                EmailProcess = EmailProcess.TeacherRegister,
+                UserName = user.UserName ?? "",
+                Password = registrationEmail.Password
+            };
+
+            await emailService.SendEmail(emailDto);
+        }
+
         public async Task UserRegister(UserRegistrationResponseDto registerEmail)
         {
             if (registerEmail.UserId == null && registerEmail.EmailAddress == null)

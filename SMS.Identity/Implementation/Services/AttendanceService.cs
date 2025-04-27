@@ -4,7 +4,6 @@ using SMS.Application.DTOs.Attendance;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
-using SMS.Domain.Common;
 using SMS.Domain.Entities;
 using SMS.Domain.Entities.Identity;
 
