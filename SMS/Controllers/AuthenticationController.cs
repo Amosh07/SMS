@@ -72,35 +72,6 @@ namespace SMS.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequestDto forgotPassword)
-        {
-            await authenticationService.ForgotPassword(forgotPassword);
-
-            return Ok(new ResponseDto<bool>
-            {
-                StatusCode = (int)HttpStatusCode.OK,
-                Message = "Email for forgot password successfully sent.",
-                Result = true,
-            });
-        }
-
-        [AllowAnonymous]
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(ForgotPasswordEmailRequestDto forgotPasswordEmail)
-        {
-            await authenticationService.ResetPassword(forgotPasswordEmail);
-
-            return Ok(new ResponseDto<bool>
-            {
-                StatusCode = (int)HttpStatusCode.OK,
-                Message = "Password for the following user has been successfully reset.",
-                Result = true,
-            });
-        }
-
-
-        [AllowAnonymous]
         [HttpPost("logout")]
         public Task<IActionResult> LogOut()
         {

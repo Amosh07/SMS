@@ -14,5 +14,9 @@ namespace SMS.Application.Interface.Services
         Task RequestAction(RequestActionResponseDto request);
 
         Task ResetUserPassword(ResetUserPasswordRequestDto resetPasswordRequest);
+
+        Task TeacherRegister(UserRegistrationResponseDto registrationEmail);
+
+        Task StudentRegister(UserRegistrationResponseDto registrationEmail);
     }
 }

@@ -3,8 +3,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SMS.Application.Common.Email;
 using SMS.Application.Common.User;
-using SMS.Application.DTOs.Email;
-using SMS.Application.DTOs.EmailConfirmation;
 using SMS.Application.DTOs.Identity;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
@@ -12,7 +10,6 @@ using SMS.Application.Interface.Services;
 using SMS.Application.Interface.Services.Identity;
 using SMS.Application.Settings;
 using SMS.Domain.Common;
-using SMS.Domain.Common.Enum;
 using SMS.Domain.Entities.Identity;
 using SMS.Helper;
 using SMS.Identity.Implementation.Manager;
@@ -181,6 +178,8 @@ namespace SMS.Identity.Implementation.Services
                 {
                     await userManager.AddToRoleAsync(user, candidateRole.Name!);
                 }
+
+               // await emailService.SendEmail(emailDto);
             }
             else
             {
@@ -346,45 +345,6 @@ namespace SMS.Identity.Implementation.Services
         public bool IsTokenExpired(string token)
         {
             return tokenManager.BlackList.Contains(token);
-        }
-
-        public async Task ForgotPassword(ForgotPasswordRequestDto forgotPasswordDto)
-        {
-            var user = genericRepository.GetFirstOrDefault<User>(x => x.Email == forgotPasswordDto.EmailAddress) ??
-              throw new NotFoundException("The following user has not been registered to our system.");
-
-            var token = await userManager.GeneratePasswordResetTokenAsync(user);
-
-            var encodedToken = System.Web.HttpUtility.UrlEncode(token);
-
-            var baseUrl = $"{_baseUrl}/{Constants.Navigation.ResetPassword}";
-
-            var emailDto = new EmailDto
-            {
-                Name = user.Name,
-                ToEmailAddress = user.Email ?? "",
-                Subject = "Connect CMS - Forget Password",
-                PrimaryMessage = $"{baseUrl}/{encodedToken}/{user.Id}",
-                EmailProcess = EmailProcess.ForgetPassword,
-                UserName = user.UserName ?? "",
-            };
-
-            await emailService.SendEmail(emailDto);
-        }
-
-        public async Task ResetPassword(ForgotPasswordEmailRequestDto verifyPasswordDto)
-        {
-            var user = await userManager.FindByIdAsync(verifyPasswordDto.UserId)
-                  ?? throw new NotFoundException("The following user has not been registered to our system.");
-
-            var result = await userManager.ResetPasswordAsync(user, verifyPasswordDto.Token, verifyPasswordDto.NewPassword);
-
-            if (!result.Succeeded)
-            {
-                var errors = result.Errors.Select(x => $"{x.Description}");
-
-                throw new BadRequestException("Your password couldn't be changed.", errors.ToArray());
-            }
         }
     }
 }
