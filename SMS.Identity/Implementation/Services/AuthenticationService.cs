@@ -179,7 +179,7 @@ namespace SMS.Identity.Implementation.Services
                     await userManager.AddToRoleAsync(user, candidateRole.Name!);
                 }
 
-               // await emailService.SendEmail(emailDto);
+                //await emailService.SendEmail(emailDto);
             }
             else
             {
@@ -310,7 +310,7 @@ namespace SMS.Identity.Implementation.Services
 
             if (result.Succeeded)
             {
-                var role = await roleManager.FindByIdAsync(user.RoleId.ToString());
+                var role = await roleManager.FindByNameAsync(Constants.Roles.User);
 
                 if (role != null)
                 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
+using SMS.Application.DTOs.Identity;
 using SMS.Application.DTOs.Menu;
 using SMS.Application.Interface.Services;
 using System.Net;
@@ -46,6 +47,19 @@ namespace SMS.API.Controllers
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Role rights successfully assigned.",
                 Result = true
+            });
+        }
+
+        [HttpGet("list")]
+        public IActionResult GetAllRoles()
+        {
+            var roles = menuService.GetAllRoles();
+
+            return Ok(new ResponseDto<List<RolesDto>>
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Roles successfully retrieved.",
+                Result = roles
             });
         }
     }
