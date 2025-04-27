@@ -4,10 +4,12 @@ using SMS.Application.Interface.Repositories.Base;
 using SMS.Application.Interface.Services;
 using SMS.Domain.Entities.Identity;
 using SMS.Domain.Entities;
+using SMS.Application.DTOs.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace SMS.Identity.Implementation.Services
 {
-    public class MenuService(IGenericRepository genericRepository, ICurrentUserService currentUserService) : IMenuService
+    public class MenuService(IGenericRepository genericRepository, ICurrentUserService currentUserService, RoleManager<Role> roleManager) : IMenuService
     {
         public void AssignMenus(RoleMenuRequestDto roleMenu)
         {
@@ -157,6 +159,19 @@ namespace SMS.Identity.Implementation.Services
                 IsAssigned = isAssigned,
                 SubMenus = menu.ChildMenus?.OrderBy(x => x.Sequence).Select(child => MapRoleRightToRoleRightDto(child, roleRights)).ToList() ?? []
             };
+        }
+
+        public List<RolesDto> GetAllRoles()
+        {
+            var roles = roleManager.Roles.ToList();
+
+            var result = roles.Select(x => new RolesDto()
+            {
+                Id = x.Id,
+                Name = x.Name!,
+            }).ToList();
+
+            return result;
         }
     }
 }
