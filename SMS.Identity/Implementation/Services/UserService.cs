@@ -180,7 +180,7 @@ namespace SMS.Identity.Implementation.Services
                 Id = x.Id,
                 Name = x.Name,
                 RoleId = teacherRole.Id,
-                RoleName = Constants.Roles.Student,
+                RoleName = Constants.Roles.Teacher,
                 Email = x.Email ?? string.Empty,
                 ImageUrl = x.ImageURL,
                 Gender = x.Gender.ToString(),
