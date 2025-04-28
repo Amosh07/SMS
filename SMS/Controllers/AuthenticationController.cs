@@ -45,7 +45,7 @@ namespace SMS.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("Teacher-registration")]
-        public async Task<IActionResult> TacherRegister([FromForm] TeacherRegisterDto registration)
+        public async Task<IActionResult> TacherRegister([FromBody] TeacherRegisterDto registration)
         {
             var result = await authenticationService.TeacherRegister(registration);
 
@@ -59,7 +59,7 @@ namespace SMS.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("Student-registration")]
-        public async Task<IActionResult> StudentRegister([FromForm] StudentRegisterDto registration)
+        public async Task<IActionResult> StudentRegister([FromBody] StudentRegisterDto registration)
         {
             var result = await authenticationService.StudentRegister(registration);
 
