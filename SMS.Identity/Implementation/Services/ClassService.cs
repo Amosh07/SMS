@@ -26,7 +26,8 @@ namespace SMS.Identity.Implementation.Services
             var result = @class.Select(x => new GetClassDetailDto
             {
                 Id = x.Id,
-                ClassName = x.ClassName
+                ClassName = x.ClassName,
+                IsActive = x.IsActive
             }).ToList();
 
             return result;
