@@ -90,6 +90,9 @@ namespace SMS.Identity.Implementation.Services
             var attendanceModel = genericRepository.GetById<Attendance>(attendance.Id)
                                                                         ?? throw new NotFoundException("The Attendance was not found.");
             attendanceModel.Date = attendance.Date;
+            attendanceModel.StudentId = attendance.StudentId;
+            attendanceModel.TeacherId = attendance.TeacherId;
+            attendanceModel.ClassId = attendance.ClassId;
 
             genericRepository.Update(attendanceModel);
         }

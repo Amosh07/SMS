@@ -91,6 +91,8 @@ namespace SMS.Identity.Implementation.Services
             var examModel = genericRepository.GetById<Exam>(exam.Id)
                                                 ?? throw new NotFoundException("The Exam was not found.");
             examModel.SubjectId = exam.SubjectId;
+            examModel.ClassId = exam.ClassId;
+            examModel.StudentId = exam.StudentId;
 
             genericRepository.Update(examModel);
         }

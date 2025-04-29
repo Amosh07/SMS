@@ -8,6 +8,8 @@
 
         public Guid StudentId { get; set; }
 
-        public Guid TeacherID { get; set; }
+        public Guid TeacherId { get; set; }
+
+        public Guid ClassId { get; set; }
     }
 }

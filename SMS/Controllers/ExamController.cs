@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
-using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Exam;
 using SMS.Application.Interface.Services;
-using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
