@@ -31,7 +31,7 @@ namespace SMS.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("user-registration")]
-        public async Task<IActionResult> UserRegister([FromBody] UserRegisterDto registration)
+        public async Task<IActionResult> UserRegister([FromForm] UserRegisterDto registration)
         {
             var result = await authenticationService.UserRegister(registration);
 

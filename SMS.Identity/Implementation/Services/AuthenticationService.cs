@@ -233,7 +233,7 @@ namespace SMS.Identity.Implementation.Services
                 Gender = teacher.Gender,
                 Address = teacher.Address,
                 ImageURL = userImageUrl,
-                IsActive = false,
+                IsActive = true,
                 PhoneNumberConfirmed = true,
                 RegisteredDate = DateTime.UtcNow
             };
