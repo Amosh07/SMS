@@ -40,6 +40,7 @@ namespace SMS.Identity.Implementation.Services
 
             var result = new GetClassDetailDto()
             {
+                Id = classModel.Id,
                 ClassName = classModel.ClassName,
             };
 
