@@ -14,5 +14,7 @@ namespace SMS.Application.Interface.Services
         void UpdateClassDetails(UpdateClassRequestDto @class);
 
         void ActivateDeactivateClass(Guid classId);
+
+        List<GetClassDetailDto> GetAllClassDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null);
     }
 }
