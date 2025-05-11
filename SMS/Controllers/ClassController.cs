@@ -61,5 +61,18 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+        [HttpGet]
+        public IActionResult GetAllClassDetails(int pageNumber, int pageSize, string? search, bool? isActive)
+        {
+            var result = classService.GetAllClassDetails(pageNumber, pageSize, out var rowCount, search, isActive);
+
+            return Ok(new CollectionDto<GetClassDetailDto>(result, rowCount, pageNumber, pageSize)
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Class retrival successfull",
+                Result = result
+            });
+
+        }
     }
 }

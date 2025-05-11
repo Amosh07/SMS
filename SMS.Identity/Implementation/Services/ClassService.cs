@@ -33,6 +33,25 @@ namespace SMS.Identity.Implementation.Services
             return result;
         }
 
+        public List<GetClassDetailDto> GetAllClassDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null)
+        {
+            var classDetail = genericRepository.GetPagedResult<Class>(
+                pageNumber,
+                pageSize,
+                out rowCount,
+                x => (string.IsNullOrEmpty(search) || x.ClassName.ToLower().Contains(search.ToLower())) &&
+                     (isActive == null || x.IsActive == isActive)
+            ).ToList();
+
+            var result = classDetail.Select(c => new GetClassDetailDto
+            {
+                Id = c.Id,
+                ClassName = c.ClassName,
+                IsActive = c.IsActive
+            }).ToList();
+            return result;
+        }
+
         public GetClassDetailDto GetClassDetails(Guid Id)
         {
             var classModel = genericRepository.GetById<Class>(Id)
