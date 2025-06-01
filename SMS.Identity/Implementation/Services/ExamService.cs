@@ -1,4 +1,5 @@
 ﻿using SMS.Application.Common.User;
+using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Exam;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
@@ -50,6 +51,30 @@ namespace SMS.Identity.Implementation.Services
             return result;
         }
 
+        public List<GetExamDetailDto> GetAllExamDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null)
+        {
+            var examDetail = genericRepository.GetPagedResult<Exam>(
+                           pageNumber,
+                           pageSize,
+                           out rowCount,
+                           x => (string.IsNullOrEmpty(search) ||
+                            x.Subject.SubjectName.ToLower().Contains(search.ToLower()) ||
+                            x.Class.ClassName.ToLower().Contains(search.ToLower())) &&
+                        (isActive == null || x.IsActive == isActive)
+                       ).ToList();
+
+            var result = examDetail.Select(e => new GetExamDetailDto
+            {
+                Id = e.Id,
+                SubjectName = e.SubjectId.ToString(),
+                StudentName = e.StudentId.ToString(),
+                Classes = e.ClassId.ToString(),
+                IsActive = e.IsActive,
+               
+             
+            }).ToList();
+            return result;
+        }
 
         public GetExamDetailDto GetExamDetails(Guid Id)
         {

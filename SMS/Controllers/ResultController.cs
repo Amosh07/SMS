@@ -60,5 +60,19 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpGet]
+        public IActionResult GetAllResultDetails(int pageNumber, int pageSize, string? search, bool? isActive)
+        {
+            var results = resultService.GetAllResultDetails(pageNumber, pageSize, out var rowCount, search, isActive);
+
+            return Ok(new CollectionDto<GetResultDetailDto>(results, rowCount, pageNumber, pageSize)
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Result retrival successfull",
+                Result = results
+            });
+
+        }
     }
 }

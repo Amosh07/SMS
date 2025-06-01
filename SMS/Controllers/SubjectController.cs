@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
+using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Subject;
 using SMS.Application.Interface.Services;
+using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -58,6 +60,20 @@ namespace SMS.API.Controllers
                     Message = "Subject details fetched successfully",
                     Result = result
                 });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSubjectDetails(int pageNumber, int pageSize, string? search, bool? isActive)
+        {
+            var result = subjectService.GetAllSubjectDetails(pageNumber, pageSize, out var rowCount, search, isActive);
+
+            return Ok(new CollectionDto<GetSubjectDetailDto>(result, rowCount, pageNumber, pageSize)
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Subject retrival successfull",
+                Result = result
+            });
+
         }
     }
 }

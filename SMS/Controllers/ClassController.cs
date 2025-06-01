@@ -61,6 +61,7 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
         [HttpGet]
         public IActionResult GetAllClassDetails(int pageNumber, int pageSize, string? search, bool? isActive)
         {

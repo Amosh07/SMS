@@ -50,6 +50,54 @@ namespace SMS.Identity.Implementation.Services
             return result;
         }
 
+        public List<GetAttendanceDetailDto> GetAllAttendanceDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null)
+        {
+            // Step 1: Fetch paginated attendances with basic filtering
+            var attendancePage = genericRepository.GetPagedResult<Attendance>(
+                pageNumber,
+                pageSize,
+                out rowCount,
+                x =>
+                    (isActive == null || x.IsActive == isActive)
+            ).ToList();
+
+            // Step 2: Load related data once (avoid per-loop queries)
+            var classes = genericRepository.Get<Class>().ToList();
+            var users = genericRepository.Get<User>().ToList();
+
+            // Step 3: Filter after loading if 'search' is provided
+            if (!string.IsNullOrEmpty(search))
+            {
+                attendancePage = attendancePage.Where(a =>
+                    (classes.FirstOrDefault(c => c.Id == a.ClassId)?.ClassName ?? "").ToLower().Contains(search.ToLower()) ||
+                    (users.FirstOrDefault(u => u.Id == a.StudentId)?.Name ?? "").ToLower().Contains(search.ToLower()) ||
+                    (users.FirstOrDefault(u => u.Id == a.TeacherId)?.Name ?? "").ToLower().Contains(search.ToLower())
+                ).ToList();
+
+                rowCount = attendancePage.Count;
+            }
+
+            // Step 4: Project to DTOs
+            var result = attendancePage.Select(a =>
+            {
+                var student = users.FirstOrDefault(u => u.Id == a.StudentId);
+                var teacher = users.FirstOrDefault(u => u.Id == a.TeacherId);
+                var classObj = classes.FirstOrDefault(c => c.Id == a.ClassId);
+
+                return new GetAttendanceDetailDto
+                {
+                    Id = a.Id,
+                    Date = a.Date,
+                    StudentName = student?.Name ?? "N/A",
+                    TeacherName = teacher?.Name ?? "N/A",
+                    ClassName = classObj?.ClassName ?? "N/A",
+                    IsActive = a.IsActive
+                };
+            }).ToList();
+
+            return result;
+        }
+
 
         public GetAttendanceDetailDto GetAttendanceDetails(Guid Id)
         {

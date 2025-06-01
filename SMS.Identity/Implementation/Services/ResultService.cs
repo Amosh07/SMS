@@ -52,6 +52,41 @@ namespace SMS.Identity.Implementation.Services
             return result;   
         }
 
+        public List<GetResultDetailDto> GetAllResultDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null)
+        {
+            var resultDetail = genericRepository.GetPagedResult<Result>(
+                pageNumber,
+                pageSize,
+                out rowCount,
+                x => (string.IsNullOrEmpty(search) || x.Grade.ToLower().Contains(search.ToLower())) &&
+                     (isActive == null || x.IsActive == isActive)
+            ).ToList();
+
+            var exams = genericRepository.Get<Exam>().ToList();
+
+            var subjects = genericRepository.Get<Subject>().ToList();
+
+            var users = genericRepository.Get<User>().ToList();
+
+            var result = resultDetail.Select(r =>
+            {
+                var exam = exams.FirstOrDefault(e => e.Id == r.ExamId);
+                var subject = subjects.FirstOrDefault(s => s.Id == exam?.SubjectId);
+                var student = users.FirstOrDefault(u => u.Id == r.StudentId);
+
+                return new GetResultDetailDto
+                {
+                    Id = r.Id,
+                    Grade = r.Grade,
+                    SubjectName = subject?.SubjectName ?? "N/A",
+                    StudentName = student?.Name ?? "N/A",
+                    IsActive = r.IsActive
+                };
+            }).ToList();
+            return result;
+        }
+    
+
         public GetResultDetailDto GetResultDetails(Guid Id)
         {
             var resultModel = genericRepository.GetById<Result>(Id)

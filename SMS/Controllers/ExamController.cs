@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS.API.Controllers.Base;
 using SMS.Application.Common.Response;
+using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Exam;
 using SMS.Application.Interface.Services;
+using SMS.Identity.Implementation.Services;
 using System.Net;
 
 namespace SMS.API.Controllers
@@ -59,6 +61,20 @@ namespace SMS.API.Controllers
                 Message = "Exam details fetched successfully",
                 Result = result
             });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllExamDetails(int pageNumber, int pageSize, string? search, bool? isActive)
+        {
+            var result = examService.GetAllExamDetails(pageNumber, pageSize, out var rowCount, search, isActive);
+
+            return Ok(new CollectionDto<GetExamDetailDto>(result, rowCount, pageNumber, pageSize)
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Exam retrival successfull",
+                Result = result
+            });
+
         }
     }
 }

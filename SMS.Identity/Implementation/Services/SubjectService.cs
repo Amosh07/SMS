@@ -1,4 +1,5 @@
 ﻿using SMS.Application.Common.User;
+using SMS.Application.DTOs.Class;
 using SMS.Application.DTOs.Subject;
 using SMS.Application.Exceptions;
 using SMS.Application.Interface.Repositories.Base;
@@ -35,6 +36,30 @@ namespace SMS.Identity.Implementation.Services
             .ThenBy(x => x.SubjectName)
             .ToList();
 
+            return result;
+        }
+
+        public List<GetSubjectDetailDto> GetAllSubjectDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null)
+        {
+            var subjectDetail = genericRepository.GetPagedResult<Subject>(
+                            pageNumber,
+                            pageSize,
+                            out rowCount,
+                            x => (string.IsNullOrEmpty(search) || x.SubjectName.ToLower().Contains(search.ToLower())) &&
+                                 (isActive == null || x.IsActive == isActive)
+                        ).ToList();
+
+            var classes = genericRepository.Get<Class>().ToList();
+
+            var result = subjectDetail.Select(subject => new GetSubjectDetailDto
+            {
+                Id = subject.Id,
+                SubjectName = subject.SubjectName,
+                ClassName = classes.FirstOrDefault(c => c.Id == subject.ClassId)?.ClassName ?? "N/A",
+                IsActive = subject.IsActive
+            }).OrderBy(x => x.ClassName)
+              .ThenBy(x => x.SubjectName)
+              .ToList();
             return result;
         }
 

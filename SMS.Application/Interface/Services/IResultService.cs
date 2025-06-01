@@ -1,4 +1,5 @@
 ﻿using SMS.Application.Common.Service;
+using SMS.Application.DTOs.Attendance;
 using SMS.Application.DTOs.Results;
 using SMS.Application.DTOs.Subject;
 
@@ -15,5 +16,8 @@ namespace SMS.Application.Interface.Services
         void UpdateResultDetails(UpdateResultRequestDto result);
 
         void ActivateDeactivateResult(Guid resultId);
+
+        List<GetResultDetailDto> GetAllResultDetails(int pageNumber, int pageSize, out int rowCount, string? search = null, bool? isActive = null);
+
     }
 }

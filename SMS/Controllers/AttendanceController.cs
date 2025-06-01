@@ -61,5 +61,19 @@ namespace SMS.API.Controllers
                 Result = result
             });
         }
+
+        [HttpGet]
+        public IActionResult GetAllAttendanceDetails(int pageNumber, int pageSize, string? search, bool? isActive)
+        {
+            var result = attendanceService.GetAllAttendanceDetails(pageNumber, pageSize, out var rowCount, search, isActive);
+
+            return Ok(new CollectionDto<GetAttendanceDetailDto>(result, rowCount, pageNumber, pageSize)
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Attendance retrival successfull",
+                Result = result
+            });
+
+        }
     }
 }
